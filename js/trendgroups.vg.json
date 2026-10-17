@@ -1,0 +1,710 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Which groups have fallen furthest?",
+  "subtitle": [
+   "Each panel is one group; the dashed line is the 1985 level. Drag the slider to compare every group in a chosen year.",
+   "Each panel has its own vertical scale, so compare the percentages, not the heights. Shaded bands show uncertainty.",
+   "Fish and invertebrates have no trend line because the Index does not monitor them."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "data": {
+  "url": "data/tsx_trends.csv",
+  "format": {
+   "type": "csv",
+   "parse": {
+    "year": "number",
+    "value": "number",
+    "low": "number",
+    "high": "number"
+   }
+  }
+ },
+ "transform": [
+  {
+   "filter": "datum.group != 'All groups'"
+  },
+  {
+   "joinaggregate": [
+    {
+     "op": "argmax",
+     "field": "year",
+     "as": "last"
+    }
+   ],
+   "groupby": [
+    "group"
+   ]
+  },
+  {
+   "calculate": "datum.last.value",
+   "as": "last_value"
+  },
+  {
+   "calculate": "datum.last_value == null ? 'Fish and invertebrates|no data in the Index' : datum.group + '|now ' + round(100 * datum.last_value) + '% of 1985 level'",
+   "as": "label"
+  },
+  {
+   "calculate": "datum.last_value == null ? 99 : datum.last_value",
+   "as": "sort_key"
+  }
+ ],
+ "facet": {
+  "field": "label",
+  "type": "nominal",
+  "sort": {
+   "field": "sort_key",
+   "op": "min"
+  },
+  "header": {
+   "title": null,
+   "labelAnchor": "start",
+   "labelOrient": "top",
+   "labelFontSize": 13,
+   "labelFontWeight": 600,
+   "labelPadding": 6,
+   "labelLineHeight": 16,
+   "labelExpr": "split(datum.label, '|')"
+  }
+ },
+ "columns": 3,
+ "spec": {
+  "width": 240,
+  "height": 150,
+  "layer": [
+   {
+    "transform": [
+     {
+      "filter": "datum.year == 1985"
+     }
+    ],
+    "mark": {
+     "type": "rule",
+     "strokeDash": [
+      4,
+      3
+     ],
+     "color": "#475b60",
+     "strokeWidth": 1
+    },
+    "encoding": {
+     "y": {
+      "datum": 1,
+      "type": "quantitative"
+     }
+    }
+   },
+   {
+    "mark": {
+     "type": "area",
+     "opacity": 0.25
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      },
+      "axis": {
+       "title": null,
+       "format": "d",
+       "values": [
+        1985,
+        2000,
+        2022
+       ],
+       "labelFontSize": 11
+      }
+     },
+     "y": {
+      "field": "low",
+      "type": "quantitative",
+      "scale": {
+       "zero": true,
+       "nice": true
+      },
+      "axis": {
+       "title": null,
+       "format": ".1f",
+       "tickCount": 4,
+       "labelFontSize": 12
+      }
+     },
+     "y2": {
+      "field": "high"
+     },
+     "color": {
+      "field": "group",
+      "type": "nominal",
+      "scale": {
+       "domain": [
+        "Amphibians",
+        "Reptiles",
+        "Plants",
+        "Birds",
+        "Mammals",
+        "Fish",
+        "Invertebrates"
+       ],
+       "range": [
+        "#2e9e8f",
+        "#e3b72d",
+        "#2f7d32",
+        "#c0397b",
+        "#7a4a24",
+        "#b9a6d9",
+        "#5b2a86"
+       ]
+      },
+      "legend": null
+     }
+    }
+   },
+   {
+    "mark": {
+     "type": "line",
+     "strokeWidth": 2.5
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      },
+      "axis": {
+       "title": null,
+       "format": "d",
+       "values": [
+        1985,
+        2000,
+        2022
+       ],
+       "labelFontSize": 11
+      }
+     },
+     "y": {
+      "field": "value",
+      "type": "quantitative",
+      "scale": {
+       "zero": true,
+       "nice": true
+      },
+      "axis": {
+       "title": null,
+       "format": ".1f",
+       "tickCount": 4,
+       "labelFontSize": 12
+      }
+     },
+     "color": {
+      "field": "group",
+      "type": "nominal",
+      "scale": {
+       "domain": [
+        "Amphibians",
+        "Reptiles",
+        "Plants",
+        "Birds",
+        "Mammals",
+        "Fish",
+        "Invertebrates"
+       ],
+       "range": [
+        "#2e9e8f",
+        "#e3b72d",
+        "#2f7d32",
+        "#c0397b",
+        "#7a4a24",
+        "#b9a6d9",
+        "#5b2a86"
+       ]
+      },
+      "legend": null
+     }
+    }
+   },
+   {
+    "mark": {
+     "type": "point",
+     "opacity": 0,
+     "size": 100
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      },
+      "axis": {
+       "title": null,
+       "format": "d",
+       "values": [
+        1985,
+        2000,
+        2022
+       ],
+       "labelFontSize": 11
+      }
+     },
+     "y": {
+      "field": "value",
+      "type": "quantitative",
+      "scale": {
+       "zero": true,
+       "nice": true
+      },
+      "axis": {
+       "title": null,
+       "format": ".1f",
+       "tickCount": 4,
+       "labelFontSize": 12
+      }
+     },
+     "color": {
+      "field": "group",
+      "type": "nominal",
+      "scale": {
+       "domain": [
+        "Amphibians",
+        "Reptiles",
+        "Plants",
+        "Birds",
+        "Mammals",
+        "Fish",
+        "Invertebrates"
+       ],
+       "range": [
+        "#2e9e8f",
+        "#e3b72d",
+        "#2f7d32",
+        "#c0397b",
+        "#7a4a24",
+        "#b9a6d9",
+        "#5b2a86"
+       ]
+      },
+      "legend": null
+     },
+     "tooltip": [
+      {
+       "field": "group",
+       "title": "Group"
+      },
+      {
+       "field": "year",
+       "title": "Year",
+       "format": "d"
+      },
+      {
+       "field": "value",
+       "title": "Index",
+       "format": ".2f"
+      },
+      {
+       "field": "low",
+       "title": "Low",
+       "format": ".2f"
+      },
+      {
+       "field": "high",
+       "title": "High",
+       "format": ".2f"
+      }
+     ]
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.year == yr && datum.value != null"
+     }
+    ],
+    "mark": {
+     "type": "rule",
+     "strokeDash": [
+      3,
+      3
+     ],
+     "strokeWidth": 1,
+     "color": "#475b60"
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      }
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.year == yr && datum.value != null"
+     }
+    ],
+    "mark": {
+     "type": "point",
+     "filled": true,
+     "size": 70,
+     "stroke": "#ffffff",
+     "strokeWidth": 1.2
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      }
+     },
+     "y": {
+      "field": "value",
+      "type": "quantitative",
+      "scale": {
+       "zero": true,
+       "nice": true
+      }
+     },
+     "color": {
+      "field": "group",
+      "type": "nominal",
+      "scale": {
+       "domain": [
+        "Amphibians",
+        "Reptiles",
+        "Plants",
+        "Birds",
+        "Mammals",
+        "Fish",
+        "Invertebrates"
+       ],
+       "range": [
+        "#2e9e8f",
+        "#e3b72d",
+        "#2f7d32",
+        "#c0397b",
+        "#7a4a24",
+        "#b9a6d9",
+        "#5b2a86"
+       ]
+      },
+      "legend": null
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.year == yr && datum.value != null"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "fontWeight": "bold",
+     "color": "#16282c",
+     "align": {
+      "expr": "yr > 2002 ? 'right' : 'left'"
+     },
+     "dx": {
+      "expr": "yr > 2002 ? -9 : 9"
+     },
+     "dy": -10,
+     "lineHeight": 16
+    },
+    "encoding": {
+     "x": {
+      "field": "year",
+      "type": "quantitative",
+      "scale": {
+       "domain": [
+        1985,
+        2022
+       ],
+       "nice": false
+      }
+     },
+     "y": {
+      "field": "value",
+      "type": "quantitative",
+      "scale": {
+       "zero": true,
+       "nice": true
+      }
+     },
+     "text": {
+      "field": "value",
+      "type": "quantitative",
+      "format": ".0%"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Mammals' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"Very wide band:\", \"much less certain\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "right",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 228
+     },
+     "y": {
+      "value": 20
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Reptiles' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"Still falling\", \"in 2022\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "right",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 228
+     },
+     "y": {
+      "value": 34
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Amphibians' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"Down about 96%\", \"since 1985\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "right",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 228
+     },
+     "y": {
+      "value": 34
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Fish' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"No monitoring data:\", \"none of the 89 listed fish\", \"or 114 listed invertebrates\", \"are in the Index\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "center",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 120
+     },
+     "y": {
+      "value": 68
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Plants' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"Down more than 70%\", \"since 1985\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "right",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 228
+     },
+     "y": {
+      "value": 44
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   },
+   {
+    "transform": [
+     {
+      "filter": "datum.group == 'Birds' && datum.year == 2022"
+     },
+     {
+      "calculate": "[\"Down about 55%,\", \"flat since 2015\"]",
+      "as": "note"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "right",
+     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "lineHeight": 16,
+     "color": "#16282c"
+    },
+    "encoding": {
+     "x": {
+      "value": 228
+     },
+     "y": {
+      "value": 124
+     },
+     "text": {
+      "field": "note"
+     }
+    }
+   }
+  ]
+ },
+ "config": {
+  "facet": {
+   "spacing": 26
+  },
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "resolve": {
+  "scale": {
+   "y": "independent"
+  }
+ },
+ "params": [
+  {
+   "name": "yr",
+   "value": 2022,
+   "bind": {
+    "input": "range",
+    "min": 1985,
+    "max": 2022,
+    "step": 1,
+    "name": "Pick a year: "
+   }
+  }
+ ],
+ "description": "Small multiples of the Threatened Species Index for each group, 1985 to 2022, as a share of the 1985 level. By 2022 amphibians were at 4%, reptiles 6%, plants 28%, birds 45% and mammals 76% (with a very wide uncertainty band). Fish and invertebrates are not monitored. A slider picks the year.",
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ },
+ "spacing": 30
+}

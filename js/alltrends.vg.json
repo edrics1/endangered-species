@@ -1,0 +1,535 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "How have monitored threatened populations changed since 1985?",
+  "subtitle": [
+   "The line is the Threatened Species Index: the average size of monitored populations, with 1985 set to 1.",
+   "A value of 0.5 would mean populations are half their 1985 size."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "data": {
+  "url": "data/tsx_trends.csv"
+ },
+ "width": 760,
+ "height": 380,
+ "transform": [
+  {
+   "filter": "datum.group == 'All groups'"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "area",
+    "opacity": 0.22,
+    "color": "#8e1b2f"
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative",
+     "axis": {
+      "title": null,
+      "format": "d",
+      "tickCount": 8,
+      "labelFontSize": 12
+     },
+     "scale": {
+      "domain": [
+       1985,
+       2022
+      ],
+      "nice": false
+     }
+    },
+    "y": {
+     "field": "low",
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       1.2
+      ]
+     },
+     "axis": {
+      "title": "Index (1985 = 1)",
+      "format": ".1f",
+      "tickCount": 7
+     }
+    },
+    "y2": {
+     "field": "high"
+    }
+   }
+  },
+  {
+   "mark": {
+    "type": "line",
+    "color": "#8e1b2f",
+    "strokeWidth": 3
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative",
+     "axis": {
+      "title": null,
+      "format": "d",
+      "tickCount": 8,
+      "labelFontSize": 12
+     },
+     "scale": {
+      "domain": [
+       1985,
+       2022
+      ],
+      "nice": false
+     }
+    },
+    "y": {
+     "field": "value",
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       1.2
+      ]
+     },
+     "axis": {
+      "title": "Index (1985 = 1)",
+      "format": ".1f",
+      "tickCount": 7
+     }
+    }
+   }
+  },
+  {
+   "mark": {
+    "type": "point",
+    "opacity": 0,
+    "size": 120
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative",
+     "axis": {
+      "title": null,
+      "format": "d",
+      "tickCount": 8,
+      "labelFontSize": 12
+     },
+     "scale": {
+      "domain": [
+       1985,
+       2022
+      ],
+      "nice": false
+     }
+    },
+    "y": {
+     "field": "value",
+     "type": "quantitative",
+     "scale": {
+      "domain": [
+       0,
+       1.2
+      ]
+     },
+     "axis": {
+      "title": "Index (1985 = 1)",
+      "format": ".1f",
+      "tickCount": 7
+     }
+    },
+    "tooltip": [
+     {
+      "field": "year",
+      "title": "Year",
+      "format": "d"
+     },
+     {
+      "field": "value",
+      "title": "Index",
+      "format": ".2f"
+     },
+     {
+      "field": "low",
+      "title": "Low estimate",
+      "format": ".2f"
+     },
+     {
+      "field": "high",
+      "title": "High estimate",
+      "format": ".2f"
+     }
+    ]
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "y": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "rule",
+    "strokeDash": [
+     5,
+     4
+    ],
+    "color": "#475b60",
+    "strokeWidth": 1
+   },
+   "encoding": {
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2022,
+      "y": 1.06,
+      "t": "1985 level"
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#475b60",
+    "dy": 0,
+    "dx": -8
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2019,
+      "value": 0.239
+     }
+    ]
+   },
+   "mark": {
+    "type": "point",
+    "filled": true,
+    "color": "#8e1b2f",
+    "size": 90,
+    "stroke": "#ffffff",
+    "strokeWidth": 1.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "value",
+     "type": "quantitative"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2019,
+      "y": 0.095,
+      "t": [
+       "2019: about a quarter",
+       "of the 1985 level"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c",
+    "dy": 0,
+    "dx": -8
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2022,
+      "y": 0.8,
+      "t": [
+       "Since 2019 the index has edged up, from 24%",
+       "to 26% of its 1985 level, but the bands overlap,",
+       "so it is too early to call this a recovery"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c",
+    "dy": 0,
+    "dx": -8
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 1986,
+      "y": 0.16,
+      "t": [
+       "The shaded band shows how sure",
+       "scientists are: wider means less certain"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#475b60",
+    "dy": 0,
+    "dx": 8
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2010,
+      "value": 0.371
+     }
+    ]
+   },
+   "mark": {
+    "type": "point",
+    "filled": true,
+    "color": "#8e1b2f",
+    "size": 90,
+    "stroke": "#ffffff",
+    "strokeWidth": 1.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "value",
+     "type": "quantitative"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2022,
+      "value": 0.264
+     }
+    ]
+   },
+   "mark": {
+    "type": "point",
+    "filled": true,
+    "color": "#8e1b2f",
+    "size": 90,
+    "stroke": "#ffffff",
+    "strokeWidth": 1.5
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "value",
+     "type": "quantitative"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2010,
+      "y": 0.6,
+      "t": [
+       "2010: the index had",
+       "already fallen by 63%"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c",
+    "dy": 0,
+    "dx": 8
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "year": 2022,
+      "y": 0.455,
+      "t": [
+       "2022: 26%"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c",
+    "dy": 0,
+    "dx": -4
+   },
+   "encoding": {
+    "x": {
+     "field": "year",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "y",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  }
+ ],
+ "description": "Line chart of the Threatened Species Index for all groups, 1985 to 2022, with 1985 set to 1. The index fell to 0.24 by 2019 and has edged up to 0.26 by 2022. The uncertainty band is wide, so a recovery is not yet clear.",
+ "config": {
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

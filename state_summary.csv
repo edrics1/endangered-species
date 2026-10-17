@@ -1,0 +1,9 @@
+code,name,area_km2,listed_species,critically_endangered,endangered,vulnerable,other,animals,monitored_in_tsx,per_10k_km2,animals_per_10k_km2
+ACT,Australian Capital Territory,2308,70,11,26,33,0,52,36,303.29,225.3
+TAS,Tasmania,67696,222,48,79,90,5,117,42,32.79,17.28
+VIC,Victoria,227940,347,50,131,162,4,172,106,15.22,7.55
+NSW,New South Wales,798822,732,157,285,284,6,263,181,9.16,3.29
+QLD,Queensland,1732687,583,87,204,288,4,245,105,3.36,1.41
+SA,South Australia,980510,300,31,119,147,3,165,110,3.06,1.68
+WA,Western Australia,2528685,587,109,277,197,4,174,91,2.32,0.69
+NT,Northern Territory,1352476,143,14,50,78,1,104,46,1.06,0.77

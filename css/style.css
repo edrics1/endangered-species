@@ -1,0 +1,258 @@
+/* Running out of time: design tokens.
+   Theme: living country in cool eucalypt and sea greys; loss in warm gold, ember, deep red and charcoal.
+   Status colours step down in lightness as risk rises, so they stay readable for colour-blind viewers. */
+:root {
+  --mist: #eaf0f1;
+  --sage: #dbe7e9;      /* alternate band: a slightly deeper mist */
+  --paper: #ffffff;     /* chart panels */
+  --ink: #16282c;
+  --ink-soft: #475b60;
+  --rule: #c2d0d3;
+  --pip-off: #b3c4c8;
+
+  /* conservation status: light to dark = rising risk */
+  --st-vulnerable: #f3c84b;
+  --st-endangered: #e0702a;
+  --st-critical: #8e1b2f;
+  --st-dependent: #8d9a9a;
+  --st-extinct: #1f1719;
+
+  /* animal groups (never reused for status) */
+  --g-mammals: #7a4a24;
+  --g-birds: #c0397b;
+  --g-reptiles: #e3b72d;
+  --g-amphibians: #2e9e8f;
+  --g-fish: #b9a6d9;
+  --g-invertebrates: #5b2a86;
+  --g-plants: #2f7d32;
+
+  /* maps and monitoring (same green the map charts use) */
+  --map-green: #24593f;
+
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --measure: 37rem;
+  --wide: 68rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--mist);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.1875rem;
+  line-height: 1.65;
+}
+
+/* Page frame.
+   Every band shares one container. Its left and right edges are the page's
+   sight lines: text starts on the left edge, key facts end on the right edge,
+   and every chart panel spans edge to edge between them. */
+.page { max-width: var(--wide); margin: 0 auto; padding: 0 1.5rem; }
+
+/* Type scale (largest to smallest):
+   h1 display 800  >  h2 display 700  >  key-fact number display 800
+   >  lead sentence display 500  >  body serif 400  >  captions display 400 */
+
+/* hero */
+.hero { padding: 5rem 0 3.5rem; }
+.hero h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 8vw, 5.5rem);
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.hero .lede { font-size: 1.35rem; line-height: 1.6; max-width: var(--measure); color: var(--ink-soft); margin: 0 0 2.5rem; }
+
+/* status strip: band widths = share of the 2,222 listed species */
+.status-strip { display: flex; height: 1.1rem; margin: 0 0 0.75rem; border-radius: 0.55rem; overflow: hidden; }
+.status-strip span { display: block; height: 100%; }
+.s-v { width: 35.3%; background: var(--st-vulnerable); }
+.s-e { width: 39.2%; background: var(--st-endangered); }
+.s-c { width: 20.6%; background: var(--st-critical); }
+.s-d { width: 0.3%; background: var(--st-dependent); }
+.s-x { width: 4.6%; background: var(--st-extinct); }
+.strip-note { font-family: var(--display); font-size: 0.875rem; line-height: 1.45; color: var(--ink-soft); margin: 0; max-width: 46rem; }
+
+/* bands: each section is its own full-width block */
+.band { padding: 3.5rem 0 4rem; background: var(--mist); }
+.band-sage { background: var(--sage); }
+.band-dark { background: var(--ink); color: var(--mist); padding-bottom: 5.5rem; }
+/* the last thing in a band should not add its own bottom margin */
+.band .page > :last-child { margin-bottom: 0; }
+
+/* chapter marker: filled segments = how far through the story you are */
+.chapter {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 2.25rem;
+  font-family: var(--display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink-soft);
+}
+.pips { display: flex; gap: 0.25rem; }
+.pips span { display: block; width: 2.25rem; height: 0.4rem; background: var(--pip-off); }
+.pips span.on { background: var(--ink); }
+.band-dark .chapter { color: #a9bfc4; }
+.band-dark .pips span { background: #35505a; }
+.band-dark .pips span.on { background: var(--mist); }
+
+/* section opening: text on the left, one key fact on the right */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, var(--measure)) minmax(0, 1fr);
+  column-gap: 3rem;
+  align-items: start;
+}
+.text { max-width: var(--measure); }
+h2 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2rem, 4.6vw, 3.1rem);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  margin: 0 0 1.25rem;
+  text-wrap: balance;
+}
+.text p { margin: 0 0 1.1rem; }
+.text p:last-child { margin-bottom: 0; }
+/* lead sentence: the section's answer in one paragraph, set in the display face */
+.text .lead {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: 1.35rem;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  margin-bottom: 1.4rem;
+}
+.term { font-style: italic; }
+
+/* key fact: one number per section, coloured to match its chart */
+.fact {
+  justify-self: end;
+  width: min(100%, 21rem);
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 3px solid var(--accent, var(--ink));
+  font-family: var(--display);
+}
+.fact .num {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(3.75rem, 9vw, 5.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  color: var(--accent, var(--ink));
+}
+.fact .what { margin: 0.7rem 0 0; font-size: 1.05rem; line-height: 1.4; color: var(--ink); }
+@media (max-width: 860px) {
+  .intro { grid-template-columns: 1fr; }
+  .fact { justify-self: start; margin-top: 2rem; }
+}
+
+/* closing band */
+.band-dark h2 { color: #ffffff; }
+/* the closing statement sits in the right-hand column, like the key facts above it */
+.closer {
+  justify-self: end;
+  width: min(100%, 25rem);
+  margin: 0.5rem 0 0;
+  padding-left: 1.5rem;
+  border-left: 6px solid var(--st-endangered);
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+@media (max-width: 860px) { .closer { justify-self: start; margin-top: 2.5rem; } }
+
+/* charts: white panels that all share the container width */
+figure { margin: 2.75rem 0 3.5rem; }
+.chart {
+  width: 100%;
+  min-height: 12rem;
+  overflow-x: auto;
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+.chart .vega-bindings { margin-top: 0.75rem; font-family: var(--display); font-size: 0.9rem; color: var(--ink-soft); }
+/* chart notes: written like a sentence from a person, set in the body face at reading size */
+figcaption {
+  font-family: var(--body);
+  font-size: 1.1875rem;
+  line-height: 1.65;
+  color: var(--ink);
+  max-width: 41rem;
+  margin: 1.1rem 0 0;
+}
+.chart-title { font-family: var(--display); font-weight: 600; font-size: 1.05rem; margin: 0 0 0.5rem; }
+.pending { font-family: var(--display); color: var(--ink-soft); font-size: 0.9rem; padding: 2rem 0; border: 1px dashed var(--rule); text-align: center; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+
+/* controls (show / hide only) */
+.controls { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1rem; }
+.controls button {
+  font: 600 0.85rem var(--display);
+  color: var(--ink);
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  border-radius: 2rem;
+  padding: 0.3rem 0.9rem;
+  cursor: pointer;
+}
+.controls button[aria-pressed="true"] { background: var(--ink); color: var(--mist); }
+:focus-visible { outline: 3px solid var(--st-endangered); outline-offset: 2px; }
+
+/* footer / metadata */
+footer { padding: 3rem 0 4rem; font-family: var(--display); font-size: 0.9rem; color: var(--ink-soft); }
+footer h2 { font-size: 1.3rem; margin: 0 0 0.75rem; }
+footer p { margin: 0 0 0.5rem; }
+footer ul { padding-left: 1.2rem; max-width: 52rem; margin: 0; }
+footer a { color: var(--ink); }
+
+/* ---- Layout pass: centred text, slanted bands, dark opening ---- */
+:root { --tilt: 2.75rem; }
+.hero { background: var(--ink); color: var(--mist); text-align: center; padding: 5.5rem 0 calc(4rem + var(--tilt)); }
+.hero h1 { margin: 0 auto 1.5rem; max-width: 13ch; color: #fff; }
+.hero .lede { margin: 0 auto 2.75rem; color: #c3d2d4; }
+.status-strip { height: 1.6rem; max-width: 46rem; margin: 0 auto 1rem; }
+.strip-note { margin: 0 auto; text-align: center; color: #a9bfc4; }
+
+.band { margin-top: calc(var(--tilt) * -1); padding: calc(var(--tilt) + 3.5rem) 0 calc(4rem + var(--tilt)); clip-path: polygon(0 var(--tilt), 100% 0, 100% 100%, 0 100%); }
+section.band:nth-of-type(even) { clip-path: polygon(0 0, 100% var(--tilt), 100% 100%, 0 100%); }
+.band-dark { padding-bottom: 5.5rem; }
+
+.chapter { justify-content: center; }
+.intro { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.text { max-width: 42rem; }
+h2 { font-size: clamp(2.3rem, 5.4vw, 3.6rem); max-width: 18ch; margin-left: auto; margin-right: auto; }
+
+/* key fact: a centred number beside its sentence, set between two thin rules */
+.fact { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem 1.75rem; width: auto; max-width: 46rem; margin: 2.5rem auto 0; padding: 1.25rem 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.fact .what { max-width: 15rem; margin: 0; text-align: left; }
+.closer { width: min(100%, 36rem); margin: 3rem auto 0; padding: 0; border: 0; text-align: center; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+
+/* charts: one panel style, one gap above and below, notes centred underneath */
+figure { margin: 3rem 0 3.5rem; }
+.chart { padding: 1.75rem 1rem; border-radius: 12px; }
+figcaption { max-width: 41rem; margin: 1.25rem auto 0; text-align: center; }
+.controls { justify-content: center; }
+
+footer { text-align: center; }
+footer ul { list-style: none; padding: 0; margin: 0 auto; }

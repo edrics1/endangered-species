@@ -1,0 +1,1049 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Who is being watched, and where?",
+  "subtitle": [
+   "One map per animal or plant group. With all species shown, birds blanket the country while reptiles are tracked in only a few places.",
+   "Use the buttons below to filter by threat level. Try Critically Endangered: only 7 dots are left on the mammal map."
+  ],
+  "anchor": "middle",
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "fontWeight": 700,
+  "subtitleColor": "#475b60",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "columns": 3,
+ "concat": [
+  {
+   "title": {
+    "text": "Birds",
+    "anchor": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 16,
+    "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "subtitleFontSize": 13,
+    "offset": 22
+   },
+   "width": 290,
+   "height": 230,
+   "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+     -18,
+     -36
+    ],
+    "rotate": [
+     -134,
+     0
+    ],
+    "scale": 370.5,
+    "translate": [
+     149.6,
+     -229.6
+    ]
+   },
+   "layer": [
+    {
+     "data": {
+      "url": "js/australia_states.topo.json",
+      "format": {
+       "type": "topojson",
+       "feature": "data"
+      }
+     },
+     "mark": {
+      "type": "geoshape",
+      "fill": "#d9e4e6",
+      "stroke": "#ffffff",
+      "strokeWidth": 0.8
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Birds' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rn"
+        }
+       ],
+       "groupby": [
+        "lat",
+        "lon"
+       ],
+       "sort": [
+        {
+         "field": "scientific_name"
+        }
+       ]
+      },
+      {
+       "calculate": "datum.lon + 0.4 * sqrt(datum.rn - 1) * cos(datum.rn * 2.39996)",
+       "as": "lon_j"
+      },
+      {
+       "calculate": "datum.lat + 0.4 * sqrt(datum.rn - 1) * sin(datum.rn * 2.39996)",
+       "as": "lat_j"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "size": 12,
+      "color": "#c0397b",
+      "opacity": 0.8,
+      "stroke": "#ffffff",
+      "strokeWidth": 0.3
+     },
+     "encoding": {
+      "longitude": {
+       "field": "lon_j",
+       "type": "quantitative"
+      },
+      "latitude": {
+       "field": "lat_j",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "common_name",
+        "title": "Species"
+       },
+       {
+        "field": "scientific_name",
+        "title": "Scientific name"
+       },
+       {
+        "field": "subregion",
+        "title": "Region"
+       },
+       {
+        "field": "epbc_status",
+        "title": "Status"
+       }
+      ]
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Birds' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "calculate": "datum.lat + '_' + datum.lon",
+       "as": "loc"
+      },
+      {
+       "aggregate": [
+        {
+         "op": "distinct",
+         "field": "scientific_name",
+         "as": "sp"
+        },
+        {
+         "op": "distinct",
+         "field": "loc",
+         "as": "regions"
+        }
+       ]
+      },
+      {
+       "calculate": "format(datum.sp, ',') + (datum.sp == 1 ? ' species' : ' species') + ' in ' + format(datum.regions, ',') + (datum.regions == 1 ? ' region' : ' regions')",
+       "as": "txt"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "top",
+      "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+      "fontSize": 13,
+      "color": "#475b60",
+      "lineHeight": 16
+     },
+     "encoding": {
+      "x": {
+       "value": 0
+      },
+      "y": {
+       "value": 0
+      },
+      "text": {
+       "field": "txt"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "text": "Mammals",
+    "anchor": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 16,
+    "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "subtitleFontSize": 13,
+    "offset": 22
+   },
+   "width": 290,
+   "height": 230,
+   "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+     -18,
+     -36
+    ],
+    "rotate": [
+     -134,
+     0
+    ],
+    "scale": 370.5,
+    "translate": [
+     149.6,
+     -229.6
+    ]
+   },
+   "layer": [
+    {
+     "data": {
+      "url": "js/australia_states.topo.json",
+      "format": {
+       "type": "topojson",
+       "feature": "data"
+      }
+     },
+     "mark": {
+      "type": "geoshape",
+      "fill": "#d9e4e6",
+      "stroke": "#ffffff",
+      "strokeWidth": 0.8
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Mammals' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rn"
+        }
+       ],
+       "groupby": [
+        "lat",
+        "lon"
+       ],
+       "sort": [
+        {
+         "field": "scientific_name"
+        }
+       ]
+      },
+      {
+       "calculate": "datum.lon + 0.4 * sqrt(datum.rn - 1) * cos(datum.rn * 2.39996)",
+       "as": "lon_j"
+      },
+      {
+       "calculate": "datum.lat + 0.4 * sqrt(datum.rn - 1) * sin(datum.rn * 2.39996)",
+       "as": "lat_j"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "size": 12,
+      "color": "#7a4a24",
+      "opacity": 0.8,
+      "stroke": "#ffffff",
+      "strokeWidth": 0.3
+     },
+     "encoding": {
+      "longitude": {
+       "field": "lon_j",
+       "type": "quantitative"
+      },
+      "latitude": {
+       "field": "lat_j",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "common_name",
+        "title": "Species"
+       },
+       {
+        "field": "scientific_name",
+        "title": "Scientific name"
+       },
+       {
+        "field": "subregion",
+        "title": "Region"
+       },
+       {
+        "field": "epbc_status",
+        "title": "Status"
+       }
+      ]
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Mammals' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "calculate": "datum.lat + '_' + datum.lon",
+       "as": "loc"
+      },
+      {
+       "aggregate": [
+        {
+         "op": "distinct",
+         "field": "scientific_name",
+         "as": "sp"
+        },
+        {
+         "op": "distinct",
+         "field": "loc",
+         "as": "regions"
+        }
+       ]
+      },
+      {
+       "calculate": "format(datum.sp, ',') + (datum.sp == 1 ? ' species' : ' species') + ' in ' + format(datum.regions, ',') + (datum.regions == 1 ? ' region' : ' regions')",
+       "as": "txt"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "top",
+      "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+      "fontSize": 13,
+      "color": "#475b60",
+      "lineHeight": 16
+     },
+     "encoding": {
+      "x": {
+       "value": 0
+      },
+      "y": {
+       "value": 0
+      },
+      "text": {
+       "field": "txt"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "text": "Plants",
+    "anchor": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 16,
+    "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "subtitleFontSize": 13,
+    "offset": 22
+   },
+   "width": 290,
+   "height": 230,
+   "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+     -18,
+     -36
+    ],
+    "rotate": [
+     -134,
+     0
+    ],
+    "scale": 370.5,
+    "translate": [
+     149.6,
+     -229.6
+    ]
+   },
+   "layer": [
+    {
+     "data": {
+      "url": "js/australia_states.topo.json",
+      "format": {
+       "type": "topojson",
+       "feature": "data"
+      }
+     },
+     "mark": {
+      "type": "geoshape",
+      "fill": "#d9e4e6",
+      "stroke": "#ffffff",
+      "strokeWidth": 0.8
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Plants' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rn"
+        }
+       ],
+       "groupby": [
+        "lat",
+        "lon"
+       ],
+       "sort": [
+        {
+         "field": "scientific_name"
+        }
+       ]
+      },
+      {
+       "calculate": "datum.lon + 0.4 * sqrt(datum.rn - 1) * cos(datum.rn * 2.39996)",
+       "as": "lon_j"
+      },
+      {
+       "calculate": "datum.lat + 0.4 * sqrt(datum.rn - 1) * sin(datum.rn * 2.39996)",
+       "as": "lat_j"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "size": 12,
+      "color": "#2f7d32",
+      "opacity": 0.8,
+      "stroke": "#ffffff",
+      "strokeWidth": 0.3
+     },
+     "encoding": {
+      "longitude": {
+       "field": "lon_j",
+       "type": "quantitative"
+      },
+      "latitude": {
+       "field": "lat_j",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "common_name",
+        "title": "Species"
+       },
+       {
+        "field": "scientific_name",
+        "title": "Scientific name"
+       },
+       {
+        "field": "subregion",
+        "title": "Region"
+       },
+       {
+        "field": "epbc_status",
+        "title": "Status"
+       }
+      ]
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Plants' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "calculate": "datum.lat + '_' + datum.lon",
+       "as": "loc"
+      },
+      {
+       "aggregate": [
+        {
+         "op": "distinct",
+         "field": "scientific_name",
+         "as": "sp"
+        },
+        {
+         "op": "distinct",
+         "field": "loc",
+         "as": "regions"
+        }
+       ]
+      },
+      {
+       "calculate": "format(datum.sp, ',') + (datum.sp == 1 ? ' species' : ' species') + ' in ' + format(datum.regions, ',') + (datum.regions == 1 ? ' region' : ' regions')",
+       "as": "txt"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "top",
+      "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+      "fontSize": 13,
+      "color": "#475b60",
+      "lineHeight": 16
+     },
+     "encoding": {
+      "x": {
+       "value": 0
+      },
+      "y": {
+       "value": 0
+      },
+      "text": {
+       "field": "txt"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "text": "Amphibians",
+    "anchor": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 16,
+    "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "subtitleFontSize": 13,
+    "offset": 22
+   },
+   "width": 290,
+   "height": 230,
+   "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+     -18,
+     -36
+    ],
+    "rotate": [
+     -134,
+     0
+    ],
+    "scale": 370.5,
+    "translate": [
+     149.6,
+     -229.6
+    ]
+   },
+   "layer": [
+    {
+     "data": {
+      "url": "js/australia_states.topo.json",
+      "format": {
+       "type": "topojson",
+       "feature": "data"
+      }
+     },
+     "mark": {
+      "type": "geoshape",
+      "fill": "#d9e4e6",
+      "stroke": "#ffffff",
+      "strokeWidth": 0.8
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Amphibians' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rn"
+        }
+       ],
+       "groupby": [
+        "lat",
+        "lon"
+       ],
+       "sort": [
+        {
+         "field": "scientific_name"
+        }
+       ]
+      },
+      {
+       "calculate": "datum.lon + 0.4 * sqrt(datum.rn - 1) * cos(datum.rn * 2.39996)",
+       "as": "lon_j"
+      },
+      {
+       "calculate": "datum.lat + 0.4 * sqrt(datum.rn - 1) * sin(datum.rn * 2.39996)",
+       "as": "lat_j"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "size": 12,
+      "color": "#2e9e8f",
+      "opacity": 0.8,
+      "stroke": "#ffffff",
+      "strokeWidth": 0.3
+     },
+     "encoding": {
+      "longitude": {
+       "field": "lon_j",
+       "type": "quantitative"
+      },
+      "latitude": {
+       "field": "lat_j",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "common_name",
+        "title": "Species"
+       },
+       {
+        "field": "scientific_name",
+        "title": "Scientific name"
+       },
+       {
+        "field": "subregion",
+        "title": "Region"
+       },
+       {
+        "field": "epbc_status",
+        "title": "Status"
+       }
+      ]
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Amphibians' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "calculate": "datum.lat + '_' + datum.lon",
+       "as": "loc"
+      },
+      {
+       "aggregate": [
+        {
+         "op": "distinct",
+         "field": "scientific_name",
+         "as": "sp"
+        },
+        {
+         "op": "distinct",
+         "field": "loc",
+         "as": "regions"
+        }
+       ]
+      },
+      {
+       "calculate": "format(datum.sp, ',') + (datum.sp == 1 ? ' species' : ' species') + ' in ' + format(datum.regions, ',') + (datum.regions == 1 ? ' region' : ' regions')",
+       "as": "txt"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "top",
+      "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+      "fontSize": 13,
+      "color": "#475b60",
+      "lineHeight": 16
+     },
+     "encoding": {
+      "x": {
+       "value": 0
+      },
+      "y": {
+       "value": 0
+      },
+      "text": {
+       "field": "txt"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "title": {
+    "text": "Reptiles",
+    "anchor": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 16,
+    "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "subtitleFontSize": 13,
+    "offset": 22
+   },
+   "width": 290,
+   "height": 230,
+   "projection": {
+    "type": "conicEqualArea",
+    "parallels": [
+     -18,
+     -36
+    ],
+    "rotate": [
+     -134,
+     0
+    ],
+    "scale": 370.5,
+    "translate": [
+     149.6,
+     -229.6
+    ]
+   },
+   "layer": [
+    {
+     "data": {
+      "url": "js/australia_states.topo.json",
+      "format": {
+       "type": "topojson",
+       "feature": "data"
+      }
+     },
+     "mark": {
+      "type": "geoshape",
+      "fill": "#d9e4e6",
+      "stroke": "#ffffff",
+      "strokeWidth": 0.8
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Reptiles' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "window": [
+        {
+         "op": "row_number",
+         "as": "rn"
+        }
+       ],
+       "groupby": [
+        "lat",
+        "lon"
+       ],
+       "sort": [
+        {
+         "field": "scientific_name"
+        }
+       ]
+      },
+      {
+       "calculate": "datum.lon + 0.4 * sqrt(datum.rn - 1) * cos(datum.rn * 2.39996)",
+       "as": "lon_j"
+      },
+      {
+       "calculate": "datum.lat + 0.4 * sqrt(datum.rn - 1) * sin(datum.rn * 2.39996)",
+       "as": "lat_j"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "size": 12,
+      "color": "#e3b72d",
+      "opacity": 0.8,
+      "stroke": "#ffffff",
+      "strokeWidth": 0.3
+     },
+     "encoding": {
+      "longitude": {
+       "field": "lon_j",
+       "type": "quantitative"
+      },
+      "latitude": {
+       "field": "lat_j",
+       "type": "quantitative"
+      },
+      "tooltip": [
+       {
+        "field": "common_name",
+        "title": "Species"
+       },
+       {
+        "field": "scientific_name",
+        "title": "Scientific name"
+       },
+       {
+        "field": "subregion",
+        "title": "Region"
+       },
+       {
+        "field": "epbc_status",
+        "title": "Status"
+       }
+      ]
+     }
+    },
+    {
+     "data": {
+      "url": "data/tsx_points.csv",
+      "format": {
+       "type": "csv",
+       "parse": {
+        "lat": "number",
+        "lon": "number",
+        "offshore": "number"
+       }
+      }
+     },
+     "transform": [
+      {
+       "filter": "datum.group == 'Reptiles' && datum.offshore == 0 && (level == 'All threat levels' || datum.epbc_status == level)"
+      },
+      {
+       "calculate": "datum.lat + '_' + datum.lon",
+       "as": "loc"
+      },
+      {
+       "aggregate": [
+        {
+         "op": "distinct",
+         "field": "scientific_name",
+         "as": "sp"
+        },
+        {
+         "op": "distinct",
+         "field": "loc",
+         "as": "regions"
+        }
+       ]
+      },
+      {
+       "calculate": "format(datum.sp, ',') + (datum.sp == 1 ? ' species' : ' species') + ' in ' + format(datum.regions, ',') + (datum.regions == 1 ? ' region' : ' regions')",
+       "as": "txt"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "align": "left",
+      "baseline": "top",
+      "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+      "fontSize": 13,
+      "color": "#475b60",
+      "lineHeight": 16
+     },
+     "encoding": {
+      "x": {
+       "value": 0
+      },
+      "y": {
+       "value": 0
+      },
+      "text": {
+       "field": "txt"
+      }
+     }
+    }
+   ]
+  },
+  {
+   "width": 290,
+   "height": 230,
+   "view": {
+    "stroke": null
+   },
+   "data": {
+    "values": [
+     {
+      "t": [
+       "How to read these maps",
+       " ",
+       "Each dot is one species tracked in one region, so a",
+       "species tracked in several regions appears several times.",
+       " ",
+       "Dots are spread out a little around each region's",
+       "centre so that species in the same region stay visible.",
+       "They show where tracking happens, not where a species lives.",
+       " ",
+       "Fish and invertebrates are not in the Index, so they have no map."
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "x": {
+     "value": 0
+    },
+    "y": {
+     "value": 10
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  }
+ ],
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "params": [
+  {
+   "name": "level",
+   "value": "All threat levels",
+   "bind": {
+    "input": "radio",
+    "name": "Show species that are: ",
+    "options": [
+     "All threat levels",
+     "Critically Endangered",
+     "Endangered",
+     "Vulnerable",
+     "Not EPBC-listed"
+    ],
+    "labels": [
+     "All species tracked",
+     "Critically Endangered",
+     "Endangered",
+     "Vulnerable",
+     "Not on the national list"
+    ]
+   }
+  }
+ ],
+ "description": "Five small-multiple dot maps (birds, mammals, plants, amphibians, reptiles) showing where each species is tracked by the Threatened Species Index. Birds are tracked in 405 regions, reptiles in 35. Buttons filter by threat level; with only Critically Endangered species, the mammal map has 7 dots.",
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ },
+ "spacing": 30
+}

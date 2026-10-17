@@ -1,0 +1,407 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Where are the threatened species listed?",
+  "subtitle": [
+   "Darker states have more listed species. Use the menu below the map to change what the colours show.",
+   "A species that lives in several states counts in each of them."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "width": 900,
+ "height": 460,
+ "projection": {
+  "type": "conicEqualArea",
+  "parallels": [
+   -18,
+   -36
+  ],
+  "rotate": [
+   -134,
+   0
+  ]
+ },
+ "layer": [
+  {
+   "transform": [
+    {
+     "lookup": "properties.code",
+     "from": {
+      "data": {
+       "url": "data/state_summary.csv"
+      },
+      "key": "code",
+      "fields": [
+       "listed_species",
+       "per_10k_km2",
+       "critically_endangered"
+      ]
+     }
+    },
+    {
+     "calculate": "measure == 'per_10k_km2' ? min(datum[measure], 40) : datum[measure]",
+     "as": "value"
+    }
+   ],
+   "mark": {
+    "type": "geoshape",
+    "stroke": "#eaf0f1",
+    "strokeWidth": 1
+   },
+   "encoding": {
+    "color": {
+     "field": "value",
+     "type": "quantitative",
+     "title": "Darker = more",
+     "scale": {
+      "type": "sqrt",
+      "zero": true,
+      "range": [
+       "#e2eee4",
+       "#24593f"
+      ]
+     },
+     "legend": {
+      "orient": "bottom-left",
+      "gradientLength": 160,
+      "format": "d"
+     }
+    },
+    "tooltip": [
+     {
+      "field": "properties.name",
+      "title": "State"
+     },
+     {
+      "field": "listed_species",
+      "title": "Listed species"
+     },
+     {
+      "field": "critically_endangered",
+      "title": "Critically Endangered"
+     },
+     {
+      "field": "per_10k_km2",
+      "title": "Species per 10,000 km²"
+     }
+    ]
+   },
+   "data": {
+    "url": "js/australia_states.topo.json",
+    "format": {
+     "type": "topojson",
+     "feature": "data"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "code": "ACT",
+      "listed_species": 70,
+      "critically_endangered": 11,
+      "per_10k_km2": 303.29,
+      "lon": 149.1,
+      "lat": -35.5
+     },
+     {
+      "code": "TAS",
+      "listed_species": 222,
+      "critically_endangered": 48,
+      "per_10k_km2": 32.79,
+      "lon": 150.6,
+      "lat": -42.0
+     },
+     {
+      "code": "VIC",
+      "listed_species": 347,
+      "critically_endangered": 50,
+      "per_10k_km2": 15.22,
+      "lon": 144.3,
+      "lat": -36.55
+     },
+     {
+      "code": "NSW",
+      "listed_species": 732,
+      "critically_endangered": 157,
+      "per_10k_km2": 9.16,
+      "lon": 146.4,
+      "lat": -32.6
+     },
+     {
+      "code": "QLD",
+      "listed_species": 583,
+      "critically_endangered": 87,
+      "per_10k_km2": 3.36,
+      "lon": 144.6,
+      "lat": -23.0
+     },
+     {
+      "code": "SA",
+      "listed_species": 300,
+      "critically_endangered": 31,
+      "per_10k_km2": 3.06,
+      "lon": 135.2,
+      "lat": -30.3
+     },
+     {
+      "code": "WA",
+      "listed_species": 587,
+      "critically_endangered": 109,
+      "per_10k_km2": 2.32,
+      "lon": 122.0,
+      "lat": -26.0
+     },
+     {
+      "code": "NT",
+      "listed_species": 143,
+      "critically_endangered": 14,
+      "per_10k_km2": 1.06,
+      "lon": 133.3,
+      "lat": -19.6
+     }
+    ]
+   },
+   "transform": [
+    {
+     "calculate": "measure == 'per_10k_km2' ? min(datum[measure], 40) : datum[measure]",
+     "as": "v"
+    },
+    {
+     "joinaggregate": [
+      {
+       "op": "max",
+       "field": "v",
+       "as": "mx"
+      }
+     ]
+    },
+    {
+     "calculate": "datum.code == 'ACT' ? ' ' : [datum.code, format(datum.v, measure == 'per_10k_km2' ? '.1f' : 'd')]",
+     "as": "txt"
+    },
+    {
+     "calculate": "sqrt(datum.v / datum.mx)",
+     "as": "t"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "fontWeight": "bold",
+    "lineHeight": 16
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "txt"
+    },
+    "color": {
+     "condition": {
+      "test": "datum.t > 0.7 && datum.code != 'TAS'",
+      "value": "#ffffff"
+     },
+     "value": "#16282c"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "transform": [
+    {
+     "calculate": "measure == 'listed_species' ? ['Showing: all listed species','NSW has the most (732), then WA (587) and Qld (583).'] : (measure == 'critically_endangered' ? ['Showing: Critically Endangered species only','NSW again leads (157), then WA (109) and Qld (87).'] : ['Showing: species per 10,000 km²','Tasmania (33) and Victoria (15) are most crowded;','WA and the NT have fewer than 3.','(Colour scale stops at 40; the ACT is off the scale.)'])",
+     "as": "h"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "fontWeight": 600,
+    "color": "#16282c",
+    "lineHeight": 16
+   },
+   "encoding": {
+    "x": {
+     "value": 8
+    },
+    "y": {
+     "value": 4
+    },
+    "text": {
+     "field": "h"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 149.1,
+      "lat": -35.5,
+      "lon2": 155.4,
+      "lat2": -35.5
+     }
+    ]
+   },
+   "mark": {
+    "type": "rule",
+    "color": "#16282c",
+    "strokeWidth": 1
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "longitude2": {
+     "field": "lon2"
+    },
+    "latitude2": {
+     "field": "lat2"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 149.1,
+      "lat": -35.5
+     }
+    ]
+   },
+   "mark": {
+    "type": "circle",
+    "color": "#16282c",
+    "size": 40
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 155.8,
+      "lat": -35.5
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "note"
+    }
+   },
+   "transform": [
+    {
+     "calculate": "measure == 'listed_species' ? ['ACT: 70 species,','few in number but in','a territory of only','2,308 km²'] : (measure == 'critically_endangered' ? ['ACT: 11 Critically','Endangered species,','in a territory of only','2,308 km²'] : ['ACT: 303 species per','10,000 km², the most','crowded of all because','it is so small'])",
+     "as": "note"
+    }
+   ]
+  }
+ ],
+ "params": [
+  {
+   "name": "measure",
+   "value": "listed_species",
+   "bind": {
+    "input": "select",
+    "name": "Colour the states by: ",
+    "options": [
+     "listed_species",
+     "critically_endangered",
+     "per_10k_km2"
+    ],
+    "labels": [
+     "All listed species",
+     "Critically Endangered species only",
+     "Species per 10,000 km² (crowding)"
+    ]
+   }
+  }
+ ],
+ "description": "Map of Australian states and territories coloured by number of listed threatened species. NSW has the most (732), then WA (587) and Queensland (583). A menu switches the colours to Critically Endangered species only or to species per 10,000 square kilometres, where the ACT, Tasmania and Victoria are the most crowded.",
+ "config": {
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

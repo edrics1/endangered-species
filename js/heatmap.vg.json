@@ -1,0 +1,393 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Which states hold each group's threatened species?",
+  "subtitle": [
+   "Each row is one group. Each cell is the share of that group's listed species found in that state or territory.",
+   "A species that lives in several states counts in each, so a row adds up to more than 100%."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "data": {
+  "url": "data/epbc_species.csv"
+ },
+ "width": {
+  "step": 76
+ },
+ "height": {
+  "step": 46
+ },
+ "transform": [
+  {
+   "filter": "datum.epbc_status != 'Extinct' && datum.epbc_status != 'Extinct in the wild'"
+  },
+  {
+   "joinaggregate": [
+    {
+     "op": "count",
+     "as": "n_group"
+    }
+   ],
+   "groupby": [
+    "group"
+   ]
+  },
+  {
+   "fold": [
+    "NSW",
+    "WA",
+    "QLD",
+    "VIC",
+    "SA",
+    "TAS",
+    "NT",
+    "ACT"
+   ],
+   "as": [
+    "state",
+    "present"
+   ]
+  },
+  {
+   "filter": "datum.present == 1"
+  },
+  {
+   "aggregate": [
+    {
+     "op": "count",
+     "as": "n"
+    }
+   ],
+   "groupby": [
+    "group",
+    "state",
+    "n_group"
+   ]
+  },
+  {
+   "impute": "n",
+   "key": "state",
+   "groupby": [
+    "group",
+    "n_group"
+   ],
+   "value": 0
+  },
+  {
+   "calculate": "datum.n / datum.n_group",
+   "as": "share"
+  },
+  {
+   "calculate": "datum.n + ' of ' + datum.n_group + ' species'",
+   "as": "tip"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "rect",
+    "stroke": "#eaf0f1",
+    "strokeWidth": 2
+   },
+   "encoding": {
+    "x": {
+     "field": "state",
+     "type": "ordinal",
+     "sort": [
+      "NSW",
+      "WA",
+      "QLD",
+      "VIC",
+      "SA",
+      "TAS",
+      "NT",
+      "ACT"
+     ],
+     "axis": {
+      "orient": "top",
+      "title": null,
+      "labelAngle": 0,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    },
+    "y": {
+     "field": "group",
+     "type": "ordinal",
+     "sort": [
+      "Invertebrates",
+      "Amphibians",
+      "Fish",
+      "Reptiles",
+      "Plants",
+      "Birds",
+      "Mammals"
+     ],
+     "axis": {
+      "title": null,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    },
+    "color": {
+     "field": "share",
+     "type": "quantitative",
+     "title": "Share of group",
+     "scale": {
+      "domain": [
+       0,
+       0.6
+      ],
+      "range": [
+       "#e6f0e8",
+       "#24593f"
+      ]
+     },
+     "legend": {
+      "format": ".0%",
+      "orient": "right",
+      "gradientLength": 140
+     }
+    },
+    "tooltip": [
+     {
+      "field": "group",
+      "title": "Group"
+     },
+     {
+      "field": "state",
+      "title": "State"
+     },
+     {
+      "field": "tip",
+      "title": "Species"
+     },
+     {
+      "field": "share",
+      "title": "Share",
+      "format": ".0%"
+     }
+    ]
+   }
+  },
+  {
+   "mark": {
+    "type": "text",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "fontWeight": "bold",
+    "lineHeight": 16
+   },
+   "encoding": {
+    "x": {
+     "field": "state",
+     "type": "ordinal",
+     "sort": [
+      "NSW",
+      "WA",
+      "QLD",
+      "VIC",
+      "SA",
+      "TAS",
+      "NT",
+      "ACT"
+     ],
+     "axis": {
+      "orient": "top",
+      "title": null,
+      "labelAngle": 0,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    },
+    "y": {
+     "field": "group",
+     "type": "ordinal",
+     "sort": [
+      "Invertebrates",
+      "Amphibians",
+      "Fish",
+      "Reptiles",
+      "Plants",
+      "Birds",
+      "Mammals"
+     ],
+     "axis": {
+      "title": null,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    },
+    "text": {
+     "field": "share",
+     "type": "quantitative",
+     "format": ".0%"
+    },
+    "color": {
+     "condition": {
+      "test": "datum.share > 0.3",
+      "value": "#ffffff"
+     },
+     "value": "#16282c"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "group": "Amphibians",
+      "state": "NSW"
+     }
+    ]
+   },
+   "mark": {
+    "type": "rect",
+    "fill": null,
+    "stroke": "#16282c",
+    "strokeWidth": 2.5
+   },
+   "encoding": {
+    "x": {
+     "field": "state",
+     "type": "ordinal",
+     "sort": [
+      "NSW",
+      "WA",
+      "QLD",
+      "VIC",
+      "SA",
+      "TAS",
+      "NT",
+      "ACT"
+     ],
+     "axis": {
+      "orient": "top",
+      "title": null,
+      "labelAngle": 0,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    },
+    "y": {
+     "field": "group",
+     "type": "ordinal",
+     "sort": [
+      "Invertebrates",
+      "Amphibians",
+      "Fish",
+      "Reptiles",
+      "Plants",
+      "Birds",
+      "Mammals"
+     ],
+     "axis": {
+      "title": null,
+      "labelFontSize": 13,
+      "ticks": false,
+      "domain": false
+     }
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "k": 1
+     }
+    ]
+   },
+   "mark": {
+    "type": "point",
+    "filled": false,
+    "shape": "M-1,-0.62L1,-0.62L1,0.62L-1,0.62Z",
+    "size": 256,
+    "stroke": "#16282c",
+    "strokeWidth": 2
+   },
+   "encoding": {
+    "x": {
+     "value": 9
+    },
+    "y": {
+     "value": 346
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "note": [
+       "Outlined cell: 59% of amphibian species live in NSW and 47% in Qld,",
+       "but only 2 to 6% in WA, SA, Tasmania or the NT."
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "x": {
+     "value": 26
+    },
+    "y": {
+     "value": 346
+    },
+    "text": {
+     "field": "note"
+    }
+   }
+  }
+ ],
+ "description": "Heatmap of the share of each group's listed species found in each state or territory. NSW is the only state where at least 30% of every group's species occur. Birds are the most widespread; amphibians cluster in NSW (59%) and Queensland (47%).",
+ "config": {
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

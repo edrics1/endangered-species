@@ -1,0 +1,276 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "Where is anyone keeping count?",
+  "subtitle": [
+   "Each circle is a region where the Threatened Species Index tracks threatened species.",
+   "The bigger the circle, the more species are tracked there."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "width": 900,
+ "height": 460,
+ "projection": {
+  "type": "conicEqualArea",
+  "parallels": [
+   -18,
+   -36
+  ],
+  "rotate": [
+   -134,
+   0
+  ]
+ },
+ "layer": [
+  {
+   "data": {
+    "url": "js/australia_states.topo.json",
+    "format": {
+     "type": "topojson",
+     "feature": "data"
+    }
+   },
+   "mark": {
+    "type": "geoshape",
+    "fill": "#d3e0e3",
+    "stroke": "#ffffff",
+    "strokeWidth": 1
+   }
+  },
+  {
+   "data": {
+    "url": "data/tsx_points.csv"
+   },
+   "transform": [
+    {
+     "filter": "datum.offshore == 0"
+    },
+    {
+     "aggregate": [
+      {
+       "op": "distinct",
+       "field": "scientific_name",
+       "as": "species"
+      }
+     ],
+     "groupby": [
+      "lat",
+      "lon",
+      "subregion",
+      "state"
+     ]
+    }
+   ],
+   "mark": {
+    "type": "circle",
+    "color": "#24593f",
+    "opacity": 0.55,
+    "stroke": "#ffffff",
+    "strokeWidth": 0.8
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "size": {
+     "field": "species",
+     "type": "quantitative",
+     "title": "Species per region",
+     "scale": {
+      "domain": [
+       0,
+       26
+      ],
+      "range": [
+       0,
+       900
+      ]
+     },
+     "legend": {
+      "orient": "bottom-left",
+      "values": [
+       1,
+       5,
+       10,
+       20
+      ],
+      "symbolFillColor": "#24593f",
+      "symbolOpacity": 0.55,
+      "symbolStrokeColor": "#ffffff",
+      "titleLimit": 220
+     }
+    },
+    "order": {
+     "field": "species",
+     "type": "quantitative",
+     "sort": "descending"
+    },
+    "tooltip": [
+     {
+      "field": "subregion",
+      "title": "Region"
+     },
+     {
+      "field": "state",
+      "title": "State"
+     },
+     {
+      "field": "species",
+      "title": "Species monitored"
+     }
+    ]
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 116.65,
+      "lat": -34.15,
+      "lon2": 116.65,
+      "lat2": -38.6
+     }
+    ]
+   },
+   "mark": {
+    "type": "rule",
+    "color": "#16282c",
+    "strokeWidth": 1
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "longitude2": {
+     "field": "lon2"
+    },
+    "latitude2": {
+     "field": "lat2"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 116.65,
+      "lat": -38.8,
+      "t": [
+       "Southern Jarrah Forest (WA):",
+       "26 species, the most of any region"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "center",
+    "baseline": "top",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "lon": 156.2,
+      "lat": -31.0,
+      "t": [
+       "63% of monitored regions are",
+       "in the east and south-east:",
+       "NSW, Qld, Vic, Tas or the ACT"
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "top",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "longitude": {
+     "field": "lon",
+     "type": "quantitative"
+    },
+    "latitude": {
+     "field": "lat",
+     "type": "quantitative"
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  }
+ ],
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "description": "Symbol map of regions where the Threatened Species Index tracks threatened species, sized by number of species. Southern Jarrah Forest in WA has the most (26). 63% of monitored regions are in NSW, Queensland, Victoria, Tasmania or the ACT.",
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

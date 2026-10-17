@@ -1,0 +1,343 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "text": "What have we already lost?",
+  "subtitle": [
+   "103 species on the national list have already gone extinct.",
+   "Each wedge is one group: the longer the wedge, the more species lost.",
+   "Labels show the number lost and the share of the group's listed species.",
+   "Mammals have lost 39, a quarter of all mammal species on the list."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "anchor": "middle",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "data": {
+  "url": "data/epbc_species.csv"
+ },
+ "width": 660,
+ "height": 450,
+ "transform": [
+  {
+   "joinaggregate": [
+    {
+     "op": "count",
+     "as": "listed"
+    }
+   ],
+   "groupby": [
+    "group"
+   ]
+  },
+  {
+   "filter": "datum.epbc_status == 'Extinct' || datum.epbc_status == 'Extinct in the wild'"
+  },
+  {
+   "aggregate": [
+    {
+     "op": "count",
+     "as": "extinct"
+    }
+   ],
+   "groupby": [
+    "group",
+    "listed"
+   ]
+  },
+  {
+   "window": [
+    {
+     "op": "row_number",
+     "as": "i"
+    }
+   ],
+   "sort": [
+    {
+     "field": "extinct",
+     "order": "descending"
+    }
+   ]
+  },
+  {
+   "calculate": "round(100 * datum.extinct / datum.listed)",
+   "as": "pct"
+  },
+  {
+   "calculate": "[datum.group, datum.extinct + ' extinct', datum.pct + '% of the group']",
+   "as": "label"
+  },
+  {
+   "calculate": "(datum.i - 1) * 2 * PI / 7",
+   "as": "a0"
+  },
+  {
+   "calculate": "datum.i * 2 * PI / 7",
+   "as": "a1"
+  },
+  {
+   "calculate": "(datum.i - 0.5) * 2 * PI / 7",
+   "as": "am"
+  },
+  {
+   "joinaggregate": [
+    {
+     "op": "max",
+     "field": "extinct",
+     "as": "mx"
+    }
+   ]
+  },
+  {
+   "calculate": "30 + 170 * sqrt(datum.extinct / datum.mx) + 4",
+   "as": "r_in"
+  },
+  {
+   "calculate": "datum.am < PI - 0.1 ? 'right' : (datum.am > PI + 0.1 ? 'left' : 'bottom')",
+   "as": "side"
+  },
+  {
+   "calculate": "datum.am - 0.004",
+   "as": "th0"
+  },
+  {
+   "calculate": "datum.am + 0.004",
+   "as": "th1"
+  },
+  {
+   "calculate": "datum.r_in + 28 + ((datum.am < 0.8 || datum.am > 5.5) ? 14 : 0)",
+   "as": "r_lab"
+  },
+  {
+   "calculate": "datum.r_lab - 6",
+   "as": "r_out"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "arc",
+    "innerRadius": 20,
+    "stroke": "#eaf0f1",
+    "strokeWidth": 2
+   },
+   "encoding": {
+    "theta": {
+     "field": "a0",
+     "type": "quantitative",
+     "scale": null
+    },
+    "theta2": {
+     "field": "a1"
+    },
+    "radius": {
+     "field": "extinct",
+     "type": "quantitative",
+     "scale": {
+      "type": "sqrt",
+      "zero": true,
+      "rangeMin": 30,
+      "rangeMax": 200
+     }
+    },
+    "color": {
+     "field": "group",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Mammals",
+       "Plants",
+       "Birds",
+       "Amphibians",
+       "Fish",
+       "Invertebrates",
+       "Reptiles"
+      ],
+      "range": [
+       "#7a4a24",
+       "#2f7d32",
+       "#c0397b",
+       "#2e9e8f",
+       "#b9a6d9",
+       "#5b2a86",
+       "#e3b72d"
+      ]
+     },
+     "legend": null
+    },
+    "tooltip": [
+     {
+      "field": "group",
+      "title": "Group"
+     },
+     {
+      "field": "extinct",
+      "title": "Extinct species"
+     },
+     {
+      "field": "listed",
+      "title": "Species on the list"
+     },
+     {
+      "field": "pct",
+      "title": "Share extinct (%)"
+     }
+    ]
+   }
+  },
+  {
+   "mark": {
+    "type": "arc",
+    "color": "#8d9a9a"
+   },
+   "encoding": {
+    "theta": {
+     "field": "th0",
+     "type": "quantitative",
+     "scale": null
+    },
+    "theta2": {
+     "field": "th1"
+    },
+    "radius": {
+     "field": "r_in",
+     "type": "quantitative",
+     "scale": null
+    },
+    "radius2": {
+     "field": "r_out"
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.side == 'right'"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "baseline": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "theta": {
+     "field": "am",
+     "type": "quantitative",
+     "scale": null
+    },
+    "radius": {
+     "field": "r_lab",
+     "type": "quantitative",
+     "scale": null
+    },
+    "text": {
+     "field": "label"
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.side == 'left'"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "baseline": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "theta": {
+     "field": "am",
+     "type": "quantitative",
+     "scale": null
+    },
+    "radius": {
+     "field": "r_lab",
+     "type": "quantitative",
+     "scale": null
+    },
+    "text": {
+     "field": "label"
+    }
+   }
+  },
+  {
+   "transform": [
+    {
+     "filter": "datum.side == 'bottom'"
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "center",
+    "baseline": "top",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "theta": {
+     "field": "am",
+     "type": "quantitative",
+     "scale": null
+    },
+    "radius": {
+     "field": "r_lab",
+     "type": "quantitative",
+     "scale": null
+    },
+    "text": {
+     "field": "label"
+    }
+   }
+  }
+ ],
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "description": "Radial chart of extinct species by group. Of 103 extinct species on the national list, mammals have lost 39 (26% of the group), plants 35, birds 22, amphibians 4, and fish, invertebrates and reptiles 1 each.",
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

@@ -1,0 +1,1081 @@
+{
+ "$schema": "https://vega.github.io/schema/vega/v5.json",
+ "description": "Sankey diagram tracing 2,119 listed species from animal or plant group, to threat level, to whether the Threatened Species Index monitors them. About 17% of Critically Endangered, 17% of Endangered and 15% of Vulnerable species are monitored; fish and invertebrates are not monitored at all.",
+ "padding": 10,
+ "width": 610,
+ "height": 462,
+ "title": {
+  "text": "Does monitoring follow the threat?",
+  "subtitle": [
+   "Read left to right: each species runs from its group, to its threat level,",
+   "to whether the Threatened Species Index monitors it. Band width shows how",
+   "many species it holds (2,119 listed species; extinct ones are excluded).",
+   "Hover over a group or threat level to follow its path."
+  ],
+  "anchor": "middle",
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "offset": -52,
+  "fontWeight": 700,
+  "subtitleColor": "#475b60",
+  "subtitlePadding": 6
+ },
+ "signals": [
+  {
+   "name": "k",
+   "value": 0.15
+  },
+  {
+   "name": "top",
+   "value": 14
+  },
+  {
+   "name": "nw",
+   "value": 14
+  },
+  {
+   "name": "x1",
+   "value": 305
+  },
+  {
+   "name": "x2",
+   "value": 610
+  },
+  {
+   "name": "hn",
+   "value": null,
+   "on": [
+    {
+     "events": "@gn:mouseover",
+     "update": "{col: 0, key: datum.group}"
+    },
+    {
+     "events": "@sn:mouseover",
+     "update": "{col: 1, key: datum.status}"
+    },
+    {
+     "events": "@mn:mouseover",
+     "update": "{col: 2, key: datum.monitored}"
+    },
+    {
+     "events": "@gn:mouseout, @sn:mouseout, @mn:mouseout",
+     "update": "null"
+    }
+   ]
+  }
+ ],
+ "data": [
+  {
+   "name": "species",
+   "url": "data/epbc_species.csv",
+   "format": {
+    "type": "csv",
+    "parse": {
+     "in_tsx": "number"
+    }
+   },
+   "transform": [
+    {
+     "type": "filter",
+     "expr": "datum.epbc_status != 'Extinct' && datum.epbc_status != 'Extinct in the wild'"
+    },
+    {
+     "type": "formula",
+     "as": "monitored",
+     "expr": "datum.in_tsx == 1 ? 'Monitored' : 'Not monitored'"
+    }
+   ]
+  },
+  {
+   "name": "gs",
+   "source": "species",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "group",
+      "epbc_status"
+     ],
+     "ops": [
+      "count",
+      "sum"
+     ],
+     "fields": [
+      null,
+      "in_tsx"
+     ],
+     "as": [
+      "n",
+      "mon"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "status",
+     "expr": "datum.epbc_status"
+    }
+   ]
+  },
+  {
+   "name": "sm",
+   "source": "species",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "epbc_status",
+      "monitored"
+     ],
+     "ops": [
+      "count"
+     ],
+     "fields": [
+      null
+     ],
+     "as": [
+      "n"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "status",
+     "expr": "datum.epbc_status"
+    },
+    {
+     "type": "formula",
+     "as": "mon",
+     "expr": "0"
+    }
+   ]
+  },
+  {
+   "name": "gnodes",
+   "source": "gs",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "group"
+     ],
+     "ops": [
+      "sum",
+      "sum"
+     ],
+     "fields": [
+      "n",
+      "mon"
+     ],
+     "as": [
+      "n",
+      "mon"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "rank",
+     "expr": "indexof([\"Plants\", \"Birds\", \"Invertebrates\", \"Mammals\", \"Reptiles\", \"Fish\", \"Amphibians\"], datum.group)"
+    },
+    {
+     "type": "window",
+     "sort": {
+      "field": "rank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "cum"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "y0",
+     "expr": "top + datum.rank * 14 + (datum.cum - datum.n) * k"
+    },
+    {
+     "type": "formula",
+     "as": "h",
+     "expr": "datum.n * k"
+    }
+   ]
+  },
+  {
+   "name": "snodes",
+   "source": "gs",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "status"
+     ],
+     "ops": [
+      "sum",
+      "sum"
+     ],
+     "fields": [
+      "n",
+      "mon"
+     ],
+     "as": [
+      "n",
+      "mon"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "rank",
+     "expr": "indexof([\"Critically Endangered\", \"Endangered\", \"Vulnerable\", \"Conservation Dependent\"], datum.status)"
+    },
+    {
+     "type": "window",
+     "sort": {
+      "field": "rank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "cum"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "y0",
+     "expr": "top + datum.rank * 46 + (datum.cum - datum.n) * k"
+    },
+    {
+     "type": "formula",
+     "as": "h",
+     "expr": "datum.n * k"
+    },
+    {
+     "type": "formula",
+     "as": "pct",
+     "expr": "round(100 * datum.mon / datum.n)"
+    }
+   ]
+  },
+  {
+   "name": "mnodes",
+   "source": "sm",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "monitored"
+     ],
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "n"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "rank",
+     "expr": "indexof([\"Monitored\", \"Not monitored\"], datum.monitored)"
+    },
+    {
+     "type": "window",
+     "sort": {
+      "field": "rank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "cum"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "y0",
+     "expr": "top + datum.rank * 46 + (datum.cum - datum.n) * k"
+    },
+    {
+     "type": "formula",
+     "as": "h",
+     "expr": "datum.n * k"
+    },
+    {
+     "type": "formula",
+     "as": "pct",
+     "expr": "round(100 * datum.n / 2119)"
+    }
+   ]
+  },
+  {
+   "name": "links1",
+   "source": "gs",
+   "transform": [
+    {
+     "type": "formula",
+     "as": "srank",
+     "expr": "indexof([\"Plants\", \"Birds\", \"Invertebrates\", \"Mammals\", \"Reptiles\", \"Fish\", \"Amphibians\"], datum.group)"
+    },
+    {
+     "type": "formula",
+     "as": "trank",
+     "expr": "indexof([\"Critically Endangered\", \"Endangered\", \"Vulnerable\", \"Conservation Dependent\"], datum.status)"
+    },
+    {
+     "type": "window",
+     "groupby": [
+      "group"
+     ],
+     "sort": {
+      "field": "trank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "cs"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "window",
+     "groupby": [
+      "status"
+     ],
+     "sort": {
+      "field": "srank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "ct"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "lookup",
+     "from": "gnodes",
+     "key": "group",
+     "fields": [
+      "group"
+     ],
+     "values": [
+      "y0"
+     ],
+     "as": [
+      "sy0"
+     ]
+    },
+    {
+     "type": "lookup",
+     "from": "snodes",
+     "key": "status",
+     "fields": [
+      "status"
+     ],
+     "values": [
+      "y0"
+     ],
+     "as": [
+      "ty0"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "w",
+     "expr": "datum.n * k"
+    },
+    {
+     "type": "formula",
+     "as": "sy",
+     "expr": "datum.sy0 + (datum.cs - datum.n) * k + datum.w / 2"
+    },
+    {
+     "type": "formula",
+     "as": "ty",
+     "expr": "datum.ty0 + (datum.ct - datum.n) * k + datum.w / 2"
+    },
+    {
+     "type": "formula",
+     "as": "sx",
+     "expr": "nw"
+    },
+    {
+     "type": "formula",
+     "as": "tx",
+     "expr": "x1"
+    }
+   ]
+  },
+  {
+   "name": "links2",
+   "source": "sm",
+   "transform": [
+    {
+     "type": "formula",
+     "as": "srank",
+     "expr": "indexof([\"Critically Endangered\", \"Endangered\", \"Vulnerable\", \"Conservation Dependent\"], datum.status)"
+    },
+    {
+     "type": "formula",
+     "as": "trank",
+     "expr": "indexof([\"Monitored\", \"Not monitored\"], datum.monitored)"
+    },
+    {
+     "type": "window",
+     "groupby": [
+      "status"
+     ],
+     "sort": {
+      "field": "trank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "cs"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "window",
+     "groupby": [
+      "monitored"
+     ],
+     "sort": {
+      "field": "srank"
+     },
+     "ops": [
+      "sum"
+     ],
+     "fields": [
+      "n"
+     ],
+     "as": [
+      "ct"
+     ],
+     "frame": [
+      null,
+      0
+     ]
+    },
+    {
+     "type": "lookup",
+     "from": "snodes",
+     "key": "status",
+     "fields": [
+      "status"
+     ],
+     "values": [
+      "y0"
+     ],
+     "as": [
+      "sy0"
+     ]
+    },
+    {
+     "type": "lookup",
+     "from": "mnodes",
+     "key": "monitored",
+     "fields": [
+      "monitored"
+     ],
+     "values": [
+      "y0"
+     ],
+     "as": [
+      "ty0"
+     ]
+    },
+    {
+     "type": "formula",
+     "as": "w",
+     "expr": "datum.n * k"
+    },
+    {
+     "type": "formula",
+     "as": "sy",
+     "expr": "datum.sy0 + (datum.cs - datum.n) * k + datum.w / 2"
+    },
+    {
+     "type": "formula",
+     "as": "ty",
+     "expr": "datum.ty0 + (datum.ct - datum.n) * k + datum.w / 2"
+    },
+    {
+     "type": "formula",
+     "as": "sx",
+     "expr": "x1 + nw"
+    },
+    {
+     "type": "formula",
+     "as": "tx",
+     "expr": "x2"
+    }
+   ]
+  }
+ ],
+ "scales": [
+  {
+   "name": "gcol",
+   "type": "ordinal",
+   "domain": [
+    "Plants",
+    "Birds",
+    "Invertebrates",
+    "Mammals",
+    "Reptiles",
+    "Fish",
+    "Amphibians"
+   ],
+   "range": [
+    "#2f7d32",
+    "#c0397b",
+    "#5b2a86",
+    "#7a4a24",
+    "#e3b72d",
+    "#b9a6d9",
+    "#2e9e8f"
+   ]
+  },
+  {
+   "name": "scol",
+   "type": "ordinal",
+   "domain": [
+    "Critically Endangered",
+    "Endangered",
+    "Vulnerable",
+    "Conservation Dependent"
+   ],
+   "range": [
+    "#8e1b2f",
+    "#e0702a",
+    "#f3c84b",
+    "#8d9a9a"
+   ]
+  },
+  {
+   "name": "mcol",
+   "type": "ordinal",
+   "domain": [
+    "Monitored",
+    "Not monitored"
+   ],
+   "range": [
+    "#24593f",
+    "#a9bfc4"
+   ]
+  }
+ ],
+ "marks": [
+  {
+   "type": "path",
+   "from": {
+    "data": "links1"
+   },
+   "encode": {
+    "enter": {
+     "stroke": {
+      "scale": "scol",
+      "field": "status"
+     },
+     "strokeWidth": {
+      "field": "w"
+     },
+     "fill": {
+      "value": null
+     },
+     "tooltip": {
+      "signal": "datum.group + ' to ' + datum.status + ': ' + datum.n + ' species'"
+     }
+    },
+    "update": {
+     "strokeOpacity": [
+      {
+       "test": "hn == null",
+       "value": 0.45
+      },
+      {
+       "test": "(hn.col == 0 && datum.group == hn.key) || (hn.col == 1 && datum.status == hn.key)",
+       "value": 0.8
+      },
+      {
+       "value": 0.07
+      }
+     ]
+    }
+   },
+   "transform": [
+    {
+     "type": "linkpath",
+     "shape": "diagonal",
+     "orient": "horizontal",
+     "sourceX": "datum.sx",
+     "sourceY": "datum.sy",
+     "targetX": "datum.tx",
+     "targetY": "datum.ty"
+    }
+   ]
+  },
+  {
+   "type": "path",
+   "from": {
+    "data": "links2"
+   },
+   "encode": {
+    "enter": {
+     "stroke": {
+      "scale": "scol",
+      "field": "status"
+     },
+     "strokeWidth": {
+      "field": "w"
+     },
+     "fill": {
+      "value": null
+     },
+     "tooltip": {
+      "signal": "datum.status + ', ' + datum.monitored + ': ' + datum.n + ' species'"
+     }
+    },
+    "update": {
+     "strokeOpacity": [
+      {
+       "test": "hn == null",
+       "value": 0.45
+      },
+      {
+       "test": "(hn.col == 1 && datum.status == hn.key) || (hn.col == 2 && datum.monitored == hn.key)",
+       "value": 0.8
+      },
+      {
+       "test": "hn.col == 0",
+       "value": 0.2
+      },
+      {
+       "value": 0.07
+      }
+     ]
+    }
+   },
+   "transform": [
+    {
+     "type": "linkpath",
+     "shape": "diagonal",
+     "orient": "horizontal",
+     "sourceX": "datum.sx",
+     "sourceY": "datum.sy",
+     "targetX": "datum.tx",
+     "targetY": "datum.ty"
+    }
+   ]
+  },
+  {
+   "type": "rect",
+   "from": {
+    "data": "gnodes"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "0"
+     },
+     "width": {
+      "signal": "nw"
+     },
+     "y": {
+      "field": "y0"
+     },
+     "height": {
+      "field": "h"
+     },
+     "fill": {
+      "scale": "gcol",
+      "field": "group"
+     },
+     "cursor": {
+      "value": "pointer"
+     },
+     "tooltip": {
+      "signal": "datum.group + ': ' + datum.n + ' species'"
+     }
+    }
+   },
+   "name": "gn"
+  },
+  {
+   "type": "rect",
+   "from": {
+    "data": "snodes"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "x1"
+     },
+     "width": {
+      "signal": "nw"
+     },
+     "y": {
+      "field": "y0"
+     },
+     "height": {
+      "field": "h"
+     },
+     "fill": {
+      "scale": "scol",
+      "field": "status"
+     },
+     "cursor": {
+      "value": "pointer"
+     },
+     "tooltip": {
+      "signal": "datum.status + ': ' + datum.n + ' species'"
+     }
+    }
+   },
+   "name": "sn"
+  },
+  {
+   "type": "rect",
+   "from": {
+    "data": "mnodes"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "x2"
+     },
+     "width": {
+      "signal": "nw"
+     },
+     "y": {
+      "field": "y0"
+     },
+     "height": {
+      "field": "h"
+     },
+     "fill": {
+      "scale": "mcol",
+      "field": "monitored"
+     },
+     "cursor": {
+      "value": "pointer"
+     },
+     "tooltip": {
+      "signal": "datum.monitored + ': ' + datum.n + ' species'"
+     }
+    }
+   },
+   "name": "mn"
+  },
+  {
+   "type": "rect",
+   "from": {
+    "data": "snodes"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "x1 - 6"
+     },
+     "y": {
+      "signal": "datum.y0 - 40"
+     },
+     "width": {
+      "value": 205
+     },
+     "height": {
+      "value": 36
+     },
+     "fill": {
+      "value": "#ffffff"
+     },
+     "fillOpacity": {
+      "value": 0.9
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "gnodes"
+   },
+   "encode": {
+    "enter": {
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fill": {
+      "value": "#16282c"
+     },
+     "x": {
+      "value": -8
+     },
+     "y": {
+      "signal": "datum.y0 + datum.h / 2"
+     },
+     "align": {
+      "value": "right"
+     },
+     "baseline": {
+      "value": "middle"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "text": {
+      "signal": "datum.group + '  ' + format(datum.n, ',')"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "snodes"
+   },
+   "encode": {
+    "enter": {
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fill": {
+      "value": "#16282c"
+     },
+     "x": {
+      "signal": "x1"
+     },
+     "y": {
+      "signal": "datum.y0 - 22"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "fontWeight": {
+      "value": "bold"
+     },
+     "text": {
+      "signal": "datum.status"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "snodes"
+   },
+   "encode": {
+    "enter": {
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fill": {
+      "value": "#475b60"
+     },
+     "x": {
+      "signal": "x1"
+     },
+     "y": {
+      "signal": "datum.y0 - 7"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "text": {
+      "signal": "datum.n + ' species, ' + datum.pct + '% monitored'"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "mnodes"
+   },
+   "encode": {
+    "enter": {
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fill": {
+      "value": "#16282c"
+     },
+     "x": {
+      "signal": "x2 + nw + 8"
+     },
+     "y": {
+      "signal": "datum.y0 + 12"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "fontWeight": {
+      "value": "bold"
+     },
+     "text": {
+      "signal": "datum.monitored"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "mnodes"
+   },
+   "encode": {
+    "enter": {
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fill": {
+      "value": "#475b60"
+     },
+     "x": {
+      "signal": "x2 + nw + 8"
+     },
+     "y": {
+      "signal": "datum.y0 + 27"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "text": {
+      "signal": "format(datum.n, ',') + ' species (' + datum.pct + '%)'"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "x2 + nw + 8"
+     },
+     "y": {
+      "value": 320
+     },
+     "text": {
+      "value": [
+       "Monitoring barely",
+       "follows the threat:",
+       "17% of Critically",
+       "Endangered, 17% of",
+       "Endangered and 15%",
+       "of Vulnerable species",
+       "are monitored."
+      ]
+     },
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "lineHeight": {
+      "value": 16
+     },
+     "fill": {
+      "value": "#16282c"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "x2 + nw + 8"
+     },
+     "y": {
+      "value": 452
+     },
+     "text": {
+      "value": [
+       "Fish and invertebrates",
+       "(203 species) are not",
+       "monitored at all."
+      ]
+     },
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "lineHeight": {
+      "value": 16
+     },
+     "fill": {
+      "value": "#16282c"
+     }
+    }
+   }
+  }
+ ],
+ "config": {
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  }
+ }
+}

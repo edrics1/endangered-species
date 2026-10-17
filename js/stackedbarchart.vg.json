@@ -1,0 +1,235 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "description": "Stacked horizontal bar chart of listed species per group, split by threat level. Plants dominate with 1,487 species, 70% of the 2,119 listed.",
+ "title": {
+  "text": "How many species does each group have on the list?",
+  "anchor": "middle",
+  "subtitle": [
+   "Each bar is one group, and its length is the number of listed species. Colours split each bar by threat level.",
+   "Extinct species are not shown."
+  ],
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "offset": 14,
+  "subtitlePadding": 6
+ },
+ "width": 650,
+ "height": {
+  "step": 40
+ },
+ "data": {
+  "url": "data/epbc_species.csv"
+ },
+ "transform": [
+  {
+   "filter": "datum.epbc_status != 'Extinct' && datum.epbc_status != 'Extinct in the wild'"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "bar",
+    "height": {
+     "band": 0.8
+    }
+   },
+   "encoding": {
+    "x": {
+     "aggregate": "count",
+     "type": "quantitative",
+     "title": "Number of listed species",
+     "axis": {
+      "tickCount": 6,
+      "format": "d"
+     }
+    },
+    "y": {
+     "field": "group",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Plants",
+       "Birds",
+       "Invertebrates",
+       "Mammals",
+       "Reptiles",
+       "Fish",
+       "Amphibians"
+      ]
+     },
+     "title": null,
+     "axis": {
+      "labelFontSize": 13
+     }
+    },
+    "color": {
+     "field": "epbc_status",
+     "type": "nominal",
+     "title": "Threat level",
+     "scale": {
+      "domain": [
+       "Critically Endangered",
+       "Endangered",
+       "Vulnerable",
+       "Conservation Dependent"
+      ],
+      "range": [
+       "#8e1b2f",
+       "#e0702a",
+       "#f3c84b",
+       "#8d9a9a"
+      ]
+     }
+    },
+    "tooltip": [
+     {
+      "field": "group",
+      "title": "Group"
+     },
+     {
+      "field": "epbc_status",
+      "title": "Threat level"
+     },
+     {
+      "aggregate": "count",
+      "title": "Species"
+     }
+    ]
+   }
+  },
+  {
+   "transform": [
+    {
+     "aggregate": [
+      {
+       "op": "count",
+       "as": "n"
+      }
+     ],
+     "groupby": [
+      "group"
+     ]
+    }
+   ],
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "dx": 6,
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "fontWeight": "bold",
+    "color": "#16282c",
+    "lineHeight": 16
+   },
+   "encoding": {
+    "x": {
+     "field": "n",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "group",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Plants",
+       "Birds",
+       "Invertebrates",
+       "Mammals",
+       "Reptiles",
+       "Fish",
+       "Amphibians"
+      ]
+     }
+    },
+    "text": {
+     "field": "n",
+     "type": "quantitative",
+     "format": ","
+    }
+   }
+  },
+  {
+   "data": {
+    "values": [
+     {
+      "g": "Invertebrates",
+      "x": 1590,
+      "t": [
+       "Plants make up 70% of the list.",
+       "309 are Critically Endangered, more than",
+       "all animal groups combined (149)."
+      ]
+     }
+    ]
+   },
+   "mark": {
+    "type": "text",
+    "align": "right",
+    "baseline": "middle",
+    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "lineHeight": 16,
+    "color": "#16282c"
+   },
+   "encoding": {
+    "x": {
+     "field": "x",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "g",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Plants",
+       "Birds",
+       "Invertebrates",
+       "Mammals",
+       "Reptiles",
+       "Fish",
+       "Amphibians"
+      ]
+     }
+    },
+    "text": {
+     "field": "t"
+    }
+   }
+  }
+ ],
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ }
+}

@@ -1,0 +1,760 @@
+{
+ "$schema": "https://vega.github.io/schema/vega/v5.json",
+ "description": "Arc diagram of threatened species shared between states and territories. NSW and Queensland share 216 species, NSW and Victoria 194, Victoria and South Australia 163. 78% of species with a known state live in only one.",
+ "width": 840,
+ "height": 370,
+ "padding": {
+  "left": 10,
+  "right": 10,
+  "top": 10,
+  "bottom": 10
+ },
+ "title": {
+  "text": "Do threatened species stay inside state borders?",
+  "subtitle": [
+   "Circle size shows how many threatened species are listed in each state or territory.",
+   "Each curve joins two states that share species: the thicker the curve, the more they share.",
+   "Hover over a state to see only its links. Most species do not cross a border: 78% of those with a known state live in only one."
+  ],
+  "anchor": "middle",
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "offset": 14,
+  "fontWeight": 700,
+  "subtitleColor": "#475b60",
+  "subtitlePadding": 6
+ },
+ "signals": [
+  {
+   "name": "base",
+   "value": 320
+  },
+  {
+   "name": "squash",
+   "value": 0.5
+  },
+  {
+   "name": "hover",
+   "value": null,
+   "on": [
+    {
+     "events": "@nodes:mouseover, @nlabels:mouseover",
+     "update": "datum.code"
+    },
+    {
+     "events": "@nodes:mouseout, @nlabels:mouseout",
+     "update": "null"
+    }
+   ]
+  }
+ ],
+ "data": [
+  {
+   "name": "species",
+   "url": "data/epbc_species.csv",
+   "format": {
+    "type": "csv",
+    "parse": {
+     "n_states": "number"
+    }
+   },
+   "transform": [
+    {
+     "type": "filter",
+     "expr": "datum.epbc_status != 'Extinct' && datum.epbc_status != 'Extinct in the wild' && datum.n_states >= 1"
+    }
+   ]
+  },
+  {
+   "name": "combos",
+   "source": "species",
+   "transform": [
+    {
+     "type": "aggregate",
+     "groupby": [
+      "states"
+     ],
+     "ops": [
+      "count"
+     ],
+     "fields": [
+      null
+     ],
+     "as": [
+      "n"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "totals",
+   "source": "combos",
+   "transform": [
+    {
+     "type": "formula",
+     "as": "WA_NT",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'NT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_SA",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'SA') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_QLD",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'QLD') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_NSW",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'NSW') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "WA_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_SA",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'SA') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_QLD",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'QLD') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_NSW",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'NSW') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NT_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "SA_QLD",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 && indexof(split(datum.states, ';'), 'QLD') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "SA_NSW",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 && indexof(split(datum.states, ';'), 'NSW') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "SA_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 && indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "SA_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "SA_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "QLD_NSW",
+     "expr": "indexof(split(datum.states, ';'), 'QLD') >= 0 && indexof(split(datum.states, ';'), 'NSW') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "QLD_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'QLD') >= 0 && indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "QLD_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'QLD') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "QLD_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'QLD') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NSW_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'NSW') >= 0 && indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NSW_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'NSW') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "NSW_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'NSW') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "ACT_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'ACT') >= 0 && indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "ACT_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'ACT') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "VIC_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'VIC') >= 0 && indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_WA",
+     "expr": "indexof(split(datum.states, ';'), 'WA') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_NT",
+     "expr": "indexof(split(datum.states, ';'), 'NT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_SA",
+     "expr": "indexof(split(datum.states, ';'), 'SA') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_QLD",
+     "expr": "indexof(split(datum.states, ';'), 'QLD') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_NSW",
+     "expr": "indexof(split(datum.states, ';'), 'NSW') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_ACT",
+     "expr": "indexof(split(datum.states, ';'), 'ACT') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_VIC",
+     "expr": "indexof(split(datum.states, ';'), 'VIC') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "formula",
+     "as": "s_TAS",
+     "expr": "indexof(split(datum.states, ';'), 'TAS') >= 0 ? datum.n : 0"
+    },
+    {
+     "type": "aggregate",
+     "ops": [
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum",
+      "sum"
+     ],
+     "fields": [
+      "WA_NT",
+      "WA_SA",
+      "WA_QLD",
+      "WA_NSW",
+      "WA_ACT",
+      "WA_VIC",
+      "WA_TAS",
+      "NT_SA",
+      "NT_QLD",
+      "NT_NSW",
+      "NT_ACT",
+      "NT_VIC",
+      "NT_TAS",
+      "SA_QLD",
+      "SA_NSW",
+      "SA_ACT",
+      "SA_VIC",
+      "SA_TAS",
+      "QLD_NSW",
+      "QLD_ACT",
+      "QLD_VIC",
+      "QLD_TAS",
+      "NSW_ACT",
+      "NSW_VIC",
+      "NSW_TAS",
+      "ACT_VIC",
+      "ACT_TAS",
+      "VIC_TAS",
+      "s_WA",
+      "s_NT",
+      "s_SA",
+      "s_QLD",
+      "s_NSW",
+      "s_ACT",
+      "s_VIC",
+      "s_TAS"
+     ],
+     "as": [
+      "WA_NT",
+      "WA_SA",
+      "WA_QLD",
+      "WA_NSW",
+      "WA_ACT",
+      "WA_VIC",
+      "WA_TAS",
+      "NT_SA",
+      "NT_QLD",
+      "NT_NSW",
+      "NT_ACT",
+      "NT_VIC",
+      "NT_TAS",
+      "SA_QLD",
+      "SA_NSW",
+      "SA_ACT",
+      "SA_VIC",
+      "SA_TAS",
+      "QLD_NSW",
+      "QLD_ACT",
+      "QLD_VIC",
+      "QLD_TAS",
+      "NSW_ACT",
+      "NSW_VIC",
+      "NSW_TAS",
+      "ACT_VIC",
+      "ACT_TAS",
+      "VIC_TAS",
+      "s_WA",
+      "s_NT",
+      "s_SA",
+      "s_QLD",
+      "s_NSW",
+      "s_ACT",
+      "s_VIC",
+      "s_TAS"
+     ]
+    },
+    {
+     "type": "fold",
+     "fields": [
+      "WA_NT",
+      "WA_SA",
+      "WA_QLD",
+      "WA_NSW",
+      "WA_ACT",
+      "WA_VIC",
+      "WA_TAS",
+      "NT_SA",
+      "NT_QLD",
+      "NT_NSW",
+      "NT_ACT",
+      "NT_VIC",
+      "NT_TAS",
+      "SA_QLD",
+      "SA_NSW",
+      "SA_ACT",
+      "SA_VIC",
+      "SA_TAS",
+      "QLD_NSW",
+      "QLD_ACT",
+      "QLD_VIC",
+      "QLD_TAS",
+      "NSW_ACT",
+      "NSW_VIC",
+      "NSW_TAS",
+      "ACT_VIC",
+      "ACT_TAS",
+      "VIC_TAS",
+      "s_WA",
+      "s_NT",
+      "s_SA",
+      "s_QLD",
+      "s_NSW",
+      "s_ACT",
+      "s_VIC",
+      "s_TAS"
+     ],
+     "as": [
+      "key",
+      "v"
+     ]
+    }
+   ]
+  },
+  {
+   "name": "shared",
+   "source": "totals",
+   "transform": [
+    {
+     "type": "filter",
+     "expr": "substring(datum.key, 0, 2) != 's_'"
+    },
+    {
+     "type": "formula",
+     "as": "ca",
+     "expr": "split(datum.key, '_')[0]"
+    },
+    {
+     "type": "formula",
+     "as": "cb",
+     "expr": "split(datum.key, '_')[1]"
+    },
+    {
+     "type": "formula",
+     "as": "shared",
+     "expr": "datum.v"
+    },
+    {
+     "type": "collect",
+     "sort": {
+      "field": "shared",
+      "order": "descending"
+     }
+    },
+    {
+     "type": "formula",
+     "as": "x1",
+     "expr": "scale('pos', datum.ca) + bandwidth('pos') / 2"
+    },
+    {
+     "type": "formula",
+     "as": "x2",
+     "expr": "scale('pos', datum.cb) + bandwidth('pos') / 2"
+    }
+   ]
+  },
+  {
+   "name": "perstate",
+   "source": "totals",
+   "transform": [
+    {
+     "type": "filter",
+     "expr": "substring(datum.key, 0, 2) == 's_'"
+    },
+    {
+     "type": "formula",
+     "as": "code",
+     "expr": "substring(datum.key, 2)"
+    },
+    {
+     "type": "formula",
+     "as": "species",
+     "expr": "datum.v"
+    }
+   ]
+  }
+ ],
+ "scales": [
+  {
+   "name": "pos",
+   "type": "band",
+   "domain": [
+    "WA",
+    "NT",
+    "SA",
+    "QLD",
+    "NSW",
+    "ACT",
+    "VIC",
+    "TAS"
+   ],
+   "range": "width"
+  },
+  {
+   "name": "w",
+   "type": "linear",
+   "domain": [
+    0,
+    220
+   ],
+   "range": [
+    0,
+    17
+   ],
+   "clamp": true
+  },
+  {
+   "name": "r",
+   "type": "sqrt",
+   "domain": [
+    0,
+    732
+   ],
+   "range": [
+    3,
+    30
+   ]
+  }
+ ],
+ "marks": [
+  {
+   "type": "path",
+   "from": {
+    "data": "shared"
+   },
+   "encode": {
+    "enter": {
+     "path": {
+      "signal": "'M' + datum.x1 + ',' + base + ' A' + (datum.x2 - datum.x1) / 2 + ',' + (datum.x2 - datum.x1) / 2 * squash + ' 0 0 1 ' + datum.x2 + ',' + base"
+     },
+     "stroke": {
+      "value": "#24593f"
+     },
+     "strokeWidth": {
+      "signal": "max(0.8, scale('w', datum.shared))"
+     },
+     "fill": {
+      "value": null
+     },
+     "tooltip": {
+      "signal": "datum.ca + ' and ' + datum.cb + ' share ' + datum.shared + ' species'"
+     }
+    },
+    "update": {
+     "strokeOpacity": [
+      {
+       "test": "hover == null",
+       "value": 0.35
+      },
+      {
+       "test": "datum.ca == hover || datum.cb == hover",
+       "value": 0.8
+      },
+      {
+       "value": 0.04
+      }
+     ]
+    }
+   }
+  },
+  {
+   "type": "rule",
+   "encode": {
+    "enter": {
+     "x": {
+      "value": 0
+     },
+     "x2": {
+      "signal": "width"
+     },
+     "y": {
+      "signal": "base"
+     },
+     "stroke": {
+      "value": "#c2d0d3"
+     }
+    }
+   }
+  },
+  {
+   "type": "symbol",
+   "from": {
+    "data": "perstate"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "scale('pos', datum.code) + bandwidth('pos') / 2"
+     },
+     "y": {
+      "signal": "base"
+     },
+     "size": {
+      "signal": "pow(scale('r', datum.species), 2) * PI"
+     },
+     "fill": {
+      "value": "#24593f"
+     },
+     "stroke": {
+      "value": "#ffffff"
+     },
+     "strokeWidth": {
+      "value": 1.5
+     },
+     "tooltip": {
+      "signal": "datum.code + ': ' + datum.species + ' threatened species'"
+     },
+     "cursor": {
+      "value": "pointer"
+     }
+    }
+   },
+   "name": "nodes"
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "perstate"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "scale('pos', datum.code) + bandwidth('pos') / 2"
+     },
+     "y": {
+      "signal": "base + 44"
+     },
+     "align": {
+      "value": "center"
+     },
+     "text": {
+      "signal": "datum.code"
+     },
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "fontWeight": {
+      "value": "bold"
+     },
+     "fill": {
+      "value": "#16282c"
+     },
+     "cursor": {
+      "value": "pointer"
+     }
+    }
+   },
+   "name": "nlabels"
+  },
+  {
+   "type": "text",
+   "from": {
+    "data": "perstate"
+   },
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "scale('pos', datum.code) + bandwidth('pos') / 2"
+     },
+     "y": {
+      "signal": "base + 60"
+     },
+     "align": {
+      "value": "center"
+     },
+     "text": {
+      "signal": "datum.species + ' species'"
+     },
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "fill": {
+      "value": "#475b60"
+     }
+    }
+   }
+  },
+  {
+   "type": "text",
+   "encode": {
+    "enter": {
+     "x": {
+      "signal": "width / 2"
+     },
+     "y": {
+      "value": 96
+     },
+     "align": {
+      "value": "center"
+     },
+     "text": {
+      "value": [
+       "Strongest links: NSW and Qld share 216 species, NSW and Vic 194, Vic and SA 163.",
+       "66 of the ACT's 70 species also live in NSW. 4 in 5 of WA's species live in no other state."
+      ]
+     },
+     "font": {
+      "value": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif"
+     },
+     "fontSize": {
+      "value": 13
+     },
+     "lineHeight": {
+      "value": 16
+     },
+     "fill": {
+      "value": "#16282c"
+     }
+    }
+   }
+  }
+ ],
+ "config": {
+  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  }
+ }
+}

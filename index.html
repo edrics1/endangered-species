@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Running out of time: Australia's threatened species</title>
+  <meta name="description" content="Which Australian plants and animals are threatened, where they live, whether things are improving, and who is keeping count.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+</head>
+<body>
+<main>
+
+  <header class="hero">
+    <div class="page">
+      <h1>Running out of time</h1>
+      <p class="lede">Australia has more than 2,000 plants and animals on the national threatened species list. This page follows them from the national list to the bush, then asks a harder question: is anyone counting them?</p>
+      <div class="status-strip" role="img" aria-label="Bar showing the share of listed species by status: Vulnerable 35%, Endangered 39%, Critically Endangered 21%, Conservation Dependent less than 1%, Extinct 5%.">
+        <span class="s-v"></span><span class="s-e"></span><span class="s-c"></span><span class="s-d"></span><span class="s-x"></span>
+      </div>
+      <p class="strip-note">Every species on the national list, 2,222 in all, from left to right: Vulnerable (amber, 35%), Endangered (orange, 39%), Critically Endangered (deep red, 21%), Conservation Dependent (a thin sliver, 7 species) and Extinct (charcoal, 5%).</p>
+    </div>
+  </header>
+
+  <section id="scale" class="band band-sage">
+    <div class="page">
+      <p class="chapter"><span class="pips" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></span>Part 1 of 5</p>
+      <div class="intro">
+        <div class="text">
+          <h2>How bad is it?</h2>
+          <p class="lead">Under national law, a species is <span class="term">listed</span> when scientists agree it is at risk of disappearing. Today that is 2,119 species, from 49 frogs to nearly 1,500 plants. Another 103 have already gone for good, including 39 mammals.</p>
+          <p>The list ranks risk in three tiers: Vulnerable, Endangered and <span class="term">Critically Endangered</span>, meaning an extremely high risk of extinction in the wild. Four in ten invertebrates (43%) and nearly four in ten amphibians (37%) are in that top tier, compared with fewer than one in ten mammals (8%).</p>
+        </div>
+        <aside class="fact" style="--accent: var(--st-extinct)">
+          <p class="num">103</p>
+          <p class="what">species on the national list are already extinct, including 39 mammals.</p>
+        </aside>
+      </div>
+      <figure>
+        <div class="chart" id="vis-waffle" data-spec="js/waffle.vg.json"></div>
+        <figcaption>Invertebrates and amphibians are in the worst shape: around four in ten of their listed species are Critically Endangered, compared with fewer than one in ten mammals. Each panel is its own group (there are only 49 amphibians but 1,487 plants), so the squares show how severe the threat is inside a group, not how big the group is. Squares are rounded to the nearest 1%.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-stackedbar" data-spec="js/stackedbarchart.vg.json"></div>
+        <figcaption>Plants make up 70% of the list, and 309 of them are Critically Endangered, which is more than all the animal groups put together (149). Per species, several animal groups are worse off, as the squares above show, but plants dominate the numbers. Hover over a bar for exact counts.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-radial" data-spec="js/radial.vg.json"></div>
+        <figcaption>Mammals and plants have lost the most species (39 and 35), but the shares are very different: a quarter of the mammals on the list are gone, against 2% of plants. The wedges use a square-root scale so small counts stay visible, so trust the printed numbers over the wedge lengths. Percentages are out of every species on the list for that group, extinct ones included. “Extinct” means no living individual is known to remain; the count includes one species that survives only in captivity or cultivation.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="places" class="band">
+    <div class="page">
+      <p class="chapter"><span class="pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span></span><span></span><span></span></span>Part 2 of 5</p>
+      <div class="intro">
+        <div class="text">
+          <h2>Where do they live?</h2>
+          <p class="lead">New South Wales has the longest list, with 732 species. Most threatened species live in one state only, so each state mostly carries its own load. Per square kilometre the picture flips: tiny Tasmania, Victoria and the ACT are far more crowded than WA or the NT.</p>
+        </div>
+        <aside class="fact" style="--accent: var(--map-green)">
+          <p class="num">78%</p>
+          <p class="what">of threatened species with a known state live in just one state.</p>
+        </aside>
+      </div>
+      <figure>
+        <div class="chart" id="vis-choropleth" data-spec="js/choropleth.vg.json"></div>
+        <figcaption>NSW has the longest list, then WA and Queensland. Switch the menu to species per 10,000 km² and the order flips: the ACT, Tasmania and Victoria look the most crowded simply because they are small (the ACT is off the colour scale). A species found in several states counts in each one, so state totals add up to more than 2,119, and 70 species are not tied to any state because they live in marine or external-territory waters.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-heatmap" data-spec="js/heatmap.vg.json"></div>
+        <figcaption>NSW is the only state where at least 30% of every group’s species turn up. Amphibians cluster in the east and are almost absent from WA, SA, Tasmania and the NT, while birds are the most widespread group. Rows don’t add up to 100% because a species can live in several states, and the 70 species tied to no state are counted in their group but in no column. Hover over a cell for the species count.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-arc" data-spec="js/arc.vg.json"></div>
+        <figcaption>The strongest links join neighbours in the east and south-east, led by NSW and Queensland. WA is the most self-contained state: four in five of its listed species live nowhere else, and Tasmania comes next at about three in five. A species shared by three states adds to three circles and three curves, so the circle sizes add up to more than the number of species.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="trend" class="band band-sage">
+    <div class="page">
+      <p class="chapter"><span class="pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></span>Part 3 of 5</p>
+      <div class="intro">
+        <div class="text">
+          <h2>Is it getting better?</h2>
+          <p class="lead">Scientists track thousands of wild populations through the <span class="term">Threatened Species Index</span>. By 2019 the average monitored population had fallen to about a quarter of its 1985 level. Since then it has edged up to 26% in 2022, but the uncertainty is wide enough that it is too early to call a recovery.</p>
+          <p>Frogs and reptiles have fared worst, falling to about 4% and 6% of their 1985 levels. Mammals look better, but the shaded band is very wide, so the true picture is uncertain.</p>
+        </div>
+        <aside class="fact" style="--accent: var(--st-critical)">
+          <p class="num">26%</p>
+          <p class="what">the average size of a monitored population in 2022, compared with 1985.</p>
+        </aside>
+      </div>
+      <figure>
+        <div class="chart" id="vis-trend-all" data-spec="js/alltrends.vg.json"></div>
+        <figcaption>The Index fell for more than three decades and hit its low in 2019. Since then it has edged up, from 24% to 26% of the 1985 level, but the shaded bands for 2019 and 2022 overlap heavily, so the data can’t yet confirm a recovery. It measures the average size of monitored populations, not the total number of animals.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-trend-groups" data-spec="js/trendgroups.vg.json"></div>
+        <figcaption>The average monitored amphibian and reptile population is down more than 90% since 1985, plants are down more than 70%, and birds are down about half. Mammals look better at 76%, but the band is so wide that the true value could sit anywhere from about 30% to 180% of the 1985 level.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="watchers" class="band">
+    <div class="page">
+      <p class="chapter"><span class="pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></span>Part 4 of 5</p>
+      <div class="intro">
+        <div class="text">
+          <h2>Who is watching?</h2>
+          <p class="lead">Only 16% of listed species are tracked in the Index. More than half of listed mammals and amphibians are included, but just 1 in 9 plants. Fish and invertebrates are not in the Index at all.</p>
+          <p>On this page, <span class="term">monitored</span> means tracked in the Index. Other surveys may follow some of these species, but the Index is the national picture of how threatened populations are changing.</p>
+        </div>
+        <aside class="fact" style="--accent: var(--map-green)">
+          <p class="num">16%</p>
+          <p class="what">of listed species are tracked in the Threatened Species Index.</p>
+        </aside>
+      </div>
+      <figure>
+        <div class="chart" id="vis-sankey" data-spec="js/sankey.vg.json"></div>
+        <figcaption>Monitoring barely follows the threat. About 17% of Critically Endangered and Endangered species are tracked, against 15% of Vulnerable ones, so the species closest to extinction are hardly more likely to be counted. Fish and invertebrates (203 species) aren’t tracked at all. Here, “tracked” means included in the Threatened Species Index; other surveys may follow some of these species.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-symbolmap" data-spec="js/symbolmap.vg.json"></div>
+        <figcaption>Monitoring clusters along the east and south-east coasts and in south-west WA, where the circles overlap. Each circle marks the centre of a region where monitoring happens, not an exact survey site. The counts include 58 species the Index tracks that aren’t on the national list (mostly mammals, plants and birds), so they can differ from the listed-species counts elsewhere on this page.</figcaption>
+      </figure>
+      <figure>
+        <div class="chart" id="vis-dotmap" data-spec="js/dotmap.vg.json"></div>
+        <figcaption>Birds are tracked in 405 regions, reptiles in only 35. Filter to Critically Endangered and the maps thin out: seven bird species still cover 85 regions, but only four mammal species (7 dots) remain. One dot is one species in one region, so the dots show where monitoring happens, not where a species lives. “All species tracked” includes 58 species not on the national list; choose “Not on the national list” to see only those.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="now" class="band band-dark">
+    <div class="page">
+      <p class="chapter"><span class="pips" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></span>Part 5 of 5</p>
+      <div class="intro">
+        <div class="text">
+          <h2>What now?</h2>
+          <p class="lead">Australia's threatened species are a story of loss and of blind spots. A hundred and three species are gone for good, and the populations we do follow have fallen to about a quarter of their 1985 size, with frogs and reptiles hit hardest.</p>
+          <p>Yet only 16% of listed species are tracked in the Index, and the most endangered are barely more likely to be counted than those that are merely vulnerable (17% against 15%). Fish and invertebrates are missing altogether. Without regular counts, it is hard to tell whether protection is working.</p>
+        </div>
+        <p class="closer">A clearer picture would start with monitoring that follows the threat: the most endangered species first, and the groups we cannot see at all.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="page">
+    <h2>About this page</h2>
+    <p>Created by Edric Chang Zi-Xuan, 12/10/2026, for FIT3179 Data Visualisation 2, Monash University.</p>
+    <p>Data sources:</p>
+    <ul>
+      <li>EPBC Act threatened species list: Department of Climate Change, Energy, the Environment and Water, via <a href="https://data.gov.au/data/dataset/threatened-species-state-lists">data.gov.au</a>. </li>
+      <li>Threatened Species Index 2025: TERN and The University of Queensland, <a href="https://tsx.org.au">tsx.org.au</a>. CC BY 4.0.</li>
+      <li>State boundaries: Made with Natural Earth, <a href="https://www.naturalearthdata.com">naturalearthdata.com</a>.</li>
+      <li>AI acknowledgement: I used Claude Sonnet 5.5 to assist with writing code for charts and also grammar fixes. I further edited code and text to fit my needs and improve clarity. </li>
+    </ul>
+  </div>
+</footer>
+
+
+<script>
+  const charts = document.querySelectorAll(".chart");
+
+  charts.forEach((chart) => {
+    const specPath = chart.getAttribute("data-spec");
+
+    fetch(specPath)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Could not load chart: " + specPath);
+        }
+        return response.json();
+      })
+      .then((spec) => {
+        vegaEmbed("#" + chart.id, spec, {
+          actions: false
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+        chart.textContent = "Unable to load this chart.";
+      });
+  });
+</script>
+
+
+</body>
+</html>
