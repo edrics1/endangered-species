@@ -7,7 +7,7 @@
   <meta name="description" content="Which Australian plants and animals are threatened, where they live, whether things are improving, and who is keeping count.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
@@ -173,6 +173,7 @@
 <script>
   const charts = document.querySelectorAll(".chart");
 
+  function drawCharts() {
   charts.forEach((chart) => {
     const specPath = chart.getAttribute("data-spec");
 
@@ -193,6 +194,16 @@
         chart.textContent = "Unable to load this chart.";
       });
   });
+  }
+
+  // draw the charts once the web fonts are ready (or after 2.5 s), so chart text uses the right font
+  Promise.race([
+    Promise.all([
+      document.fonts.load('13px "Schibsted Grotesk"'),
+      document.fonts.load('700 18px "Schibsted Grotesk"')
+    ]),
+    new Promise((resolve) => setTimeout(resolve, 2500))
+  ]).then(drawCharts, drawCharts);
 </script>
 
 

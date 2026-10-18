@@ -8,10 +8,10 @@
    "Each bar is one group, and its length is the number of listed species. Colours split each bar by threat level.",
    "Extinct species are not shown."
   ],
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "offset": 14,
@@ -119,7 +119,7 @@
     "type": "text",
     "align": "left",
     "dx": 6,
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "fontWeight": "bold",
     "color": "#16282c",
@@ -170,7 +170,7 @@
     "type": "text",
     "align": "right",
     "baseline": "middle",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c"
@@ -205,24 +205,24 @@
   "view": {
    "stroke": null
   },
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

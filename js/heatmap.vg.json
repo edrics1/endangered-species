@@ -6,10 +6,10 @@
    "Each row is one group. Each cell is the share of that group's listed species found in that state or territory.",
    "A species that lives in several states counts in each, so a row adds up to more than 100%."
   ],
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "anchor": "middle",
@@ -183,7 +183,7 @@
   {
    "mark": {
     "type": "text",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "fontWeight": "bold",
     "lineHeight": 16
@@ -343,7 +343,7 @@
     "type": "text",
     "align": "left",
     "baseline": "middle",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c"
@@ -363,24 +363,24 @@
  ],
  "description": "Heatmap of the share of each group's listed species found in each state or territory. NSW is the only state where at least 30% of every group's species occur. Birds are the most widespread; amphibians cluster in NSW (59%) and Queensland (47%).",
  "config": {
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

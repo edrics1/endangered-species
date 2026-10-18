@@ -29,8 +29,8 @@
   /* maps and monitoring (same green the map charts use) */
   --map-green: #24593f;
 
-  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
-  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Literata", Georgia, "Times New Roman", serif;
   --measure: 37rem;
   --wide: 68rem;
 }

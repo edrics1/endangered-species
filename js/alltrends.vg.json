@@ -6,10 +6,10 @@
    "The line is the Threatened Species Index: the average size of monitored populations, with 1985 set to 1.",
    "A value of 0.5 would mean populations are half their 1985 size."
   ],
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "anchor": "middle",
@@ -212,7 +212,7 @@
    "mark": {
     "type": "text",
     "align": "right",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#475b60",
@@ -277,7 +277,7 @@
    "mark": {
     "type": "text",
     "align": "right",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c",
@@ -315,7 +315,7 @@
    "mark": {
     "type": "text",
     "align": "right",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c",
@@ -352,7 +352,7 @@
    "mark": {
     "type": "text",
     "align": "left",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#475b60",
@@ -445,7 +445,7 @@
    "mark": {
     "type": "text",
     "align": "left",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c",
@@ -481,7 +481,7 @@
    "mark": {
     "type": "text",
     "align": "right",
-    "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c",
@@ -505,24 +505,24 @@
  ],
  "description": "Line chart of the Threatened Species Index for all groups, 1985 to 2022, with 1985 set to 1. The index fell to 0.24 by 2019 and has edged up to 0.26 by 2022. The uncertainty band is wide, so a recovery is not yet clear.",
  "config": {
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

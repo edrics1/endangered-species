@@ -7,10 +7,10 @@
    "Each panel has its own vertical scale, so compare the percentages, not the heights. Shaded bands show uncertainty.",
    "Fish and invertebrates have no trend line because the Index does not monitor them."
   ],
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "anchor": "middle",
@@ -434,7 +434,7 @@
     ],
     "mark": {
      "type": "text",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "fontWeight": "bold",
      "color": "#16282c",
@@ -487,7 +487,7 @@
     "mark": {
      "type": "text",
      "align": "right",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -517,7 +517,7 @@
     "mark": {
      "type": "text",
      "align": "right",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -547,7 +547,7 @@
     "mark": {
      "type": "text",
      "align": "right",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -577,7 +577,7 @@
     "mark": {
      "type": "text",
      "align": "center",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -607,7 +607,7 @@
     "mark": {
      "type": "text",
      "align": "right",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -637,7 +637,7 @@
     "mark": {
      "type": "text",
      "align": "right",
-     "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+     "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
      "fontSize": 13,
      "lineHeight": 16,
      "color": "#16282c"
@@ -660,24 +660,24 @@
   "facet": {
    "spacing": 26
   },
-  "font": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Bricolage Grotesque, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },
