@@ -1,7 +1,7 @@
 {
  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
  "title": {
-  "text": "Where is anyone keeping count?",
+  "text": "Where is anyone keeping count across Australia?",
   "subtitle": [
    "Each circle is a region where the Threatened Species Index tracks threatened species.",
    "The bigger the circle, the more species are tracked there."

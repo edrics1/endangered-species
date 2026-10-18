@@ -1,7 +1,7 @@
 {
  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
  "title": {
-  "text": "Where are the threatened species listed?",
+  "text": "Where are Australia’s threatened species listed?",
   "subtitle": [
    "Darker states have more listed species. Use the menu below the map to change what the colours show.",
    "A species that lives in several states counts in each of them."
