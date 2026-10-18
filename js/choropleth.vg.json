@@ -6,10 +6,10 @@
    "Darker states have more listed species. Use the menu below the map to change what the colours show.",
    "A species that lives in several states counts in each of them."
   ],
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "anchor": "middle",
@@ -196,7 +196,7 @@
    ],
    "mark": {
     "type": "text",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "fontWeight": "bold",
     "lineHeight": 16
@@ -240,7 +240,7 @@
     "type": "text",
     "align": "left",
     "baseline": "top",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "fontWeight": 600,
     "color": "#16282c",
@@ -329,7 +329,7 @@
     "type": "text",
     "align": "left",
     "baseline": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c"
@@ -377,24 +377,24 @@
  ],
  "description": "Map of Australian states and territories coloured by number of listed threatened species. NSW has the most (732), then WA (587) and Queensland (583). A menu switches the colours to Critically Endangered species only or to species per 10,000 square kilometres, where the ACT, Tasmania and Victoria are the most crowded.",
  "config": {
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

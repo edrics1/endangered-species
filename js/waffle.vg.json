@@ -6,10 +6,10 @@
    "One panel per group. Each square is 1% of that group's listed species, coloured by threat level.",
    "Panels run from the highest share of Critically Endangered species to the lowest. Extinct species are not shown."
   ],
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
   "fontWeight": 700,
-  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "subtitleColor": "#475b60",
   "anchor": "middle",
@@ -106,24 +106,24 @@
   "facet": {
    "spacing": 25
   },
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

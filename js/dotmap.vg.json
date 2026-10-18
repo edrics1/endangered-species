@@ -7,9 +7,9 @@
    "Use the buttons below to filter by threat level. Try Critically Endangered: only 7 dots are left on the mammal map."
   ],
   "anchor": "middle",
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
-  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "fontWeight": 700,
   "subtitleColor": "#475b60",
@@ -22,9 +22,9 @@
    "title": {
     "text": "Birds",
     "anchor": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 16,
-    "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "subtitleFontSize": 13,
     "offset": 22
    },
@@ -184,7 +184,7 @@
       "type": "text",
       "align": "center",
       "baseline": "top",
-      "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+      "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
       "fontSize": 13,
       "color": "#475b60",
       "lineHeight": 16
@@ -207,9 +207,9 @@
    "title": {
     "text": "Mammals",
     "anchor": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 16,
-    "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "subtitleFontSize": 13,
     "offset": 22
    },
@@ -369,7 +369,7 @@
       "type": "text",
       "align": "center",
       "baseline": "top",
-      "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+      "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
       "fontSize": 13,
       "color": "#475b60",
       "lineHeight": 16
@@ -392,9 +392,9 @@
    "title": {
     "text": "Plants",
     "anchor": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 16,
-    "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "subtitleFontSize": 13,
     "offset": 22
    },
@@ -554,7 +554,7 @@
       "type": "text",
       "align": "center",
       "baseline": "top",
-      "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+      "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
       "fontSize": 13,
       "color": "#475b60",
       "lineHeight": 16
@@ -577,9 +577,9 @@
    "title": {
     "text": "Amphibians",
     "anchor": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 16,
-    "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "subtitleFontSize": 13,
     "offset": 22
    },
@@ -739,7 +739,7 @@
       "type": "text",
       "align": "center",
       "baseline": "top",
-      "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+      "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
       "fontSize": 13,
       "color": "#475b60",
       "lineHeight": 16
@@ -762,9 +762,9 @@
    "title": {
     "text": "Reptiles",
     "anchor": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 16,
-    "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "subtitleFontSize": 13,
     "offset": 22
    },
@@ -924,7 +924,7 @@
       "type": "text",
       "align": "center",
       "baseline": "top",
-      "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+      "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
       "fontSize": 13,
       "color": "#475b60",
       "lineHeight": 16
@@ -964,7 +964,7 @@
     "type": "text",
     "align": "center",
     "baseline": "middle",
-    "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
     "fontSize": 13,
     "lineHeight": 16,
     "color": "#16282c"
@@ -986,24 +986,24 @@
   "view": {
    "stroke": null
   },
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "header": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13
   }
  },

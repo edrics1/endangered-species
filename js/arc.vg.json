@@ -17,9 +17,9 @@
    "Hover over a state to see only its links. Most species do not cross a border: 78% of those with a known state live in only one."
   ],
   "anchor": "middle",
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "fontSize": 18,
-  "subtitleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "subtitleFontSize": 14,
   "offset": 14,
   "fontWeight": 700,
@@ -656,7 +656,7 @@
       "signal": "datum.code"
      },
      "font": {
-      "value": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif"
+      "value": "Funnel Display, Helvetica Neue, Arial, sans-serif"
      },
      "fontSize": {
       "value": 13
@@ -694,7 +694,7 @@
       "signal": "datum.species + ' species'"
      },
      "font": {
-      "value": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif"
+      "value": "Funnel Display, Helvetica Neue, Arial, sans-serif"
      },
      "fontSize": {
       "value": 13
@@ -725,7 +725,7 @@
       ]
      },
      "font": {
-      "value": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif"
+      "value": "Funnel Display, Helvetica Neue, Arial, sans-serif"
      },
      "fontSize": {
       "value": 13
@@ -741,17 +741,17 @@
   }
  ],
  "config": {
-  "font": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "axis": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
   },
   "legend": {
-   "labelFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
-   "titleFont": "Schibsted Grotesk, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
    "labelFontSize": 13,
    "titleFontSize": 13,
    "titleFontWeight": 500
