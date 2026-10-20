@@ -2,7 +2,7 @@
  "$schema": "https://vega.github.io/schema/vega/v5.json",
  "description": "Arc diagram of threatened species shared between states and territories. NSW and Queensland share 216 species, NSW and Victoria 194, Victoria and South Australia 163. 78% of species with a known state live in only one.",
  "width": 840,
- "height": 370,
+ "height": 345,
  "padding": {
   "left": 10,
   "right": 10,
@@ -29,7 +29,7 @@
  "signals": [
   {
    "name": "base",
-   "value": 320
+   "value": 265
   },
   {
    "name": "squash",
@@ -517,16 +517,16 @@
   },
   {
    "name": "w",
-   "type": "linear",
+   "type": "threshold",
    "domain": [
-    0,
-    220
+    20,
+    100
    ],
    "range": [
-    0,
-    17
-   ],
-   "clamp": true
+    2,
+    7,
+    14
+   ]
   },
   {
    "name": "r",
@@ -556,7 +556,7 @@
       "value": "#24593f"
      },
      "strokeWidth": {
-      "signal": "max(0.8, scale('w', datum.shared))"
+      "signal": "datum.shared > 0 ? scale('w', datum.shared) : 0"
      },
      "fill": {
       "value": null
@@ -713,7 +713,7 @@
       "signal": "width / 2"
      },
      "y": {
-      "value": 96
+      "value": 16
      },
      "align": {
       "value": "center"
@@ -756,5 +756,34 @@
    "titleFontSize": 13,
    "titleFontWeight": 500
   }
- }
+ },
+ "legends": [
+  {
+   "strokeWidth": "w",
+   "title": "Species shared by two states",
+   "orient": "bottom",
+   "direction": "horizontal",
+   "symbolType": "stroke",
+   "symbolStrokeColor": "#24593f",
+   "symbolSize": 900,
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFontSize": 13,
+   "labelFontSize": 13,
+   "titleFontWeight": 500,
+   "padding": 8,
+   "titleLimit": 420,
+   "labelLimit": 200,
+   "columnPadding": 24,
+   "encode": {
+    "labels": {
+     "update": {
+      "text": {
+       "signal": "['Fewer than 20','20 to 99','100 or more'][datum.index]"
+      }
+     }
+    }
+   }
+  }
+ ]
 }

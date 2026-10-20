@@ -4,6 +4,7 @@
   "text": "How severe is the threat within each group?",
   "subtitle": [
    "One panel per group. Each square is 1% of that group's listed species, coloured by threat level.",
+   "The number beside each block is that threat level's share of the group.",
    "Panels run from the highest share of Critically Endangered species to the lowest. Extinct species are not shown."
   ],
   "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
@@ -40,71 +41,116 @@
  "spec": {
   "width": 170,
   "height": 170,
-  "mark": {
-   "type": "rect"
-  },
-  "encoding": {
-   "x": {
-    "field": "col",
-    "type": "ordinal",
-    "axis": null,
-    "scale": {
-     "paddingInner": 0.12
-    }
-   },
-   "y": {
-    "field": "row",
-    "type": "ordinal",
-    "axis": null,
-    "scale": {
-     "paddingInner": 0.12
-    }
-   },
-   "color": {
-    "field": "epbc_status",
-    "type": "nominal",
-    "title": null,
-    "scale": {
-     "domain": [
-      "Critically Endangered",
-      "Endangered",
-      "Vulnerable",
-      "Conservation Dependent"
-     ],
-     "range": [
-      "#8e1b2f",
-      "#e0702a",
-      "#f3c84b",
-      "#8d9a9a"
+  "layer": [
+   {
+    "mark": {
+     "type": "rect"
+    },
+    "encoding": {
+     "x": {
+      "field": "col",
+      "type": "ordinal",
+      "axis": null,
+      "scale": {
+       "paddingInner": 0.12
+      }
+     },
+     "y": {
+      "field": "row",
+      "type": "ordinal",
+      "axis": null,
+      "scale": {
+       "paddingInner": 0.12
+      }
+     },
+     "color": {
+      "field": "epbc_status",
+      "type": "nominal",
+      "title": null,
+      "scale": {
+       "domain": [
+        "Critically Endangered",
+        "Endangered",
+        "Vulnerable",
+        "Conservation Dependent"
+       ],
+       "range": [
+        "#8e1b2f",
+        "#e0702a",
+        "#f3c84b",
+        "#8d9a9a"
+       ]
+      },
+      "legend": {
+       "orient": "top",
+       "symbolType": "square",
+       "symbolSize": 140,
+       "columns": 4,
+       "labelFontSize": 12
+      }
+     },
+     "tooltip": [
+      {
+       "field": "group",
+       "title": "Group"
+      },
+      {
+       "field": "epbc_status",
+       "title": "Status"
+      },
+      {
+       "field": "tip",
+       "title": "Species"
+      }
      ]
-    },
-    "legend": {
-     "orient": "top",
-     "symbolType": "square",
-     "symbolSize": 140,
-     "columns": 4,
-     "labelFontSize": 12
     }
    },
-   "tooltip": [
-    {
-     "field": "group",
-     "title": "Group"
+   {
+    "transform": [
+     {
+      "calculate": "floor((datum.sq_start + datum.sq_end - 1) / 2)",
+      "as": "mid"
+     },
+     {
+      "filter": "datum.idx == datum.mid && datum.sq_end - datum.sq_start >= 3"
+     },
+     {
+      "calculate": "round(100 * datum.n / datum.n_group) + '%'",
+      "as": "pct"
+     }
+    ],
+    "mark": {
+     "type": "text",
+     "align": "left",
+     "baseline": "middle",
+     "dx": 8,
+     "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+     "fontSize": 13,
+     "fontWeight": "bold",
+     "color": "#16282c"
     },
-    {
-     "field": "epbc_status",
-     "title": "Status"
-    },
-    {
-     "field": "tip",
-     "title": "Species"
+    "encoding": {
+     "x": {
+      "value": 170
+     },
+     "y": {
+      "field": "row",
+      "type": "ordinal",
+      "axis": null,
+      "scale": {
+       "paddingInner": 0.12
+      }
+     },
+     "text": {
+      "field": "pct"
+     }
     }
-   ]
-  }
+   }
+  ]
  },
  "config": {
   "facet": {
-   "spacing": 25
+   "spacing": 46
   },
   "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
   "axis": {

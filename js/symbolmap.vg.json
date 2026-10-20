@@ -96,21 +96,21 @@
       ],
       "range": [
        0,
-       900
+       650
       ]
      },
      "legend": {
-      "orient": "bottom-left",
+      "orient": "top-left",
       "values": [
        1,
-       5,
        10,
-       20
+       25
       ],
       "symbolFillColor": "#24593f",
       "symbolOpacity": 0.55,
       "symbolStrokeColor": "#ffffff",
-      "titleLimit": 220
+      "titleLimit": 220,
+      "labelExpr": "datum.value == 1 ? 'Low: 1 species' : datum.value == 10 ? 'Medium: 10 species' : 'High: 25 species'"
      }
     },
     "order": {

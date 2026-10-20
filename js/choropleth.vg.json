@@ -47,8 +47,12 @@
      }
     },
     {
-     "calculate": "measure == 'per_10k_km2' ? min(datum[measure], 40) : datum[measure]",
-     "as": "value"
+     "calculate": "datum[measure]",
+     "as": "v"
+    },
+    {
+     "calculate": "measure == 'listed_species' ? (datum.v < 100 ? 0 : datum.v < 250 ? 1 : datum.v < 450 ? 2 : datum.v < 650 ? 3 : 4) : (measure == 'critically_endangered' ? (datum.v < 20 ? 0 : datum.v < 50 ? 1 : datum.v < 100 ? 2 : datum.v < 150 ? 3 : 4) : (datum.v < 2 ? 0 : datum.v < 5 ? 1 : datum.v < 15 ? 2 : datum.v < 30 ? 3 : 4))",
+     "as": "b"
     }
    ],
    "mark": {
@@ -58,21 +62,37 @@
    },
    "encoding": {
     "color": {
-     "field": "value",
-     "type": "quantitative",
+     "field": "b",
+     "type": "ordinal",
      "title": "Darker = more",
      "scale": {
-      "type": "sqrt",
-      "zero": true,
+      "domain": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
       "range": [
        "#e2eee4",
+       "#b6d6bf",
+       "#82b394",
+       "#4c8a67",
        "#24593f"
       ]
      },
      "legend": {
+      "symbolType": "square",
+      "symbolSize": 180,
+      "values": [
+       0,
+       1,
+       2,
+       3,
+       4
+      ],
       "orient": "bottom-left",
-      "gradientLength": 160,
-      "format": "d"
+      "labelExpr": "(measure == 'listed_species' ? ['Under 100','100–249','250–449','450–649','650 or more'] : (measure == 'critically_endangered' ? ['Under 20','20–49','50–99','100–149','150 or more'] : ['Under 2','2–5','5–15','15–30','30 or more']))[datum.value]"
      }
     },
     "tooltip": [
@@ -111,7 +131,8 @@
       "critically_endangered": 11,
       "per_10k_km2": 303.29,
       "lon": 149.1,
-      "lat": -35.5
+      "lat": -35.5,
+      "nm": "Australian Capital Territory"
      },
      {
       "code": "TAS",
@@ -119,7 +140,8 @@
       "critically_endangered": 48,
       "per_10k_km2": 32.79,
       "lon": 150.6,
-      "lat": -42.0
+      "lat": -42.0,
+      "nm": "Tasmania"
      },
      {
       "code": "VIC",
@@ -127,7 +149,8 @@
       "critically_endangered": 50,
       "per_10k_km2": 15.22,
       "lon": 144.3,
-      "lat": -36.55
+      "lat": -36.55,
+      "nm": "Victoria"
      },
      {
       "code": "NSW",
@@ -135,7 +158,8 @@
       "critically_endangered": 157,
       "per_10k_km2": 9.16,
       "lon": 146.4,
-      "lat": -32.6
+      "lat": -32.6,
+      "nm": "New South|Wales"
      },
      {
       "code": "QLD",
@@ -143,7 +167,8 @@
       "critically_endangered": 87,
       "per_10k_km2": 3.36,
       "lon": 144.6,
-      "lat": -23.0
+      "lat": -23.0,
+      "nm": "Queensland"
      },
      {
       "code": "SA",
@@ -151,7 +176,8 @@
       "critically_endangered": 31,
       "per_10k_km2": 3.06,
       "lon": 135.2,
-      "lat": -30.3
+      "lat": -30.3,
+      "nm": "South|Australia"
      },
      {
       "code": "WA",
@@ -159,7 +185,8 @@
       "critically_endangered": 109,
       "per_10k_km2": 2.32,
       "lon": 122.0,
-      "lat": -26.0
+      "lat": -26.0,
+      "nm": "Western|Australia"
      },
      {
       "code": "NT",
@@ -167,31 +194,23 @@
       "critically_endangered": 14,
       "per_10k_km2": 1.06,
       "lon": 133.3,
-      "lat": -19.6
+      "lat": -19.6,
+      "nm": "Northern|Territory"
      }
     ]
    },
    "transform": [
     {
-     "calculate": "measure == 'per_10k_km2' ? min(datum[measure], 40) : datum[measure]",
+     "calculate": "datum[measure]",
      "as": "v"
     },
     {
-     "joinaggregate": [
-      {
-       "op": "max",
-       "field": "v",
-       "as": "mx"
-      }
-     ]
+     "calculate": "measure == 'listed_species' ? (datum.v < 100 ? 0 : datum.v < 250 ? 1 : datum.v < 450 ? 2 : datum.v < 650 ? 3 : 4) : (measure == 'critically_endangered' ? (datum.v < 20 ? 0 : datum.v < 50 ? 1 : datum.v < 100 ? 2 : datum.v < 150 ? 3 : 4) : (datum.v < 2 ? 0 : datum.v < 5 ? 1 : datum.v < 15 ? 2 : datum.v < 30 ? 3 : 4))",
+     "as": "b"
     },
     {
-     "calculate": "datum.code == 'ACT' ? ' ' : [datum.code, format(datum.v, measure == 'per_10k_km2' ? '.1f' : 'd')]",
+     "calculate": "datum.code == 'ACT' ? ' ' : split(datum.nm + '|' + format(datum.v, measure == 'per_10k_km2' ? '.1f' : 'd'), '|')",
      "as": "txt"
-    },
-    {
-     "calculate": "sqrt(datum.v / datum.mx)",
-     "as": "t"
     }
    ],
    "mark": {
@@ -215,7 +234,7 @@
     },
     "color": {
      "condition": {
-      "test": "datum.t > 0.7 && datum.code != 'TAS'",
+      "test": "datum.b >= 3 && datum.code != 'TAS'",
       "value": "#ffffff"
      },
      "value": "#16282c"
@@ -232,7 +251,7 @@
    },
    "transform": [
     {
-     "calculate": "measure == 'listed_species' ? ['Showing: all listed species','NSW has the most (732), then WA (587) and Qld (583).'] : (measure == 'critically_endangered' ? ['Showing: Critically Endangered species only','NSW again leads (157), then WA (109) and Qld (87).'] : ['Showing: species per 10,000 km²','Tasmania (33) and Victoria (15) are most crowded;','WA and the NT have fewer than 3.','(Colour scale stops at 40; the ACT is off the scale.)'])",
+     "calculate": "measure == 'listed_species' ? ['Showing: all listed species','NSW has the most (732), then WA (587) and Qld (583).'] : (measure == 'critically_endangered' ? ['Showing: Critically Endangered species only','NSW again leads (157), then WA (109) and Qld (87).'] : ['Showing: species per 10,000 km²','Tasmania (33) and Victoria (15) are most crowded;','WA and the NT have fewer than 3.'])",
      "as": "h"
     }
    ],
@@ -349,7 +368,7 @@
    },
    "transform": [
     {
-     "calculate": "measure == 'listed_species' ? ['ACT: 70 species,','few in number but in','a territory of only','2,308 km²'] : (measure == 'critically_endangered' ? ['ACT: 11 Critically','Endangered species,','in a territory of only','2,308 km²'] : ['ACT: 303 species per','10,000 km², the most','crowded of all because','it is so small'])",
+     "calculate": "measure == 'listed_species' ? ['Australian Capital Territory:','70 species, few in number but','in a territory of only','2,308 km²'] : (measure == 'critically_endangered' ? ['Australian Capital Territory:','11 Critically Endangered','species, in a territory','of only 2,308 km²'] : ['Australian Capital Territory:','303 species per 10,000 km²,','the most crowded of all','because it is so small'])",
      "as": "note"
     }
    ]

@@ -1,0 +1,165 @@
+{
+ "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+ "title": {
+  "anchor": "middle",
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+  "fontSize": 18,
+  "fontWeight": 700,
+  "subtitleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+  "subtitleFontSize": 14,
+  "subtitleColor": "#475b60",
+  "offset": 14,
+  "subtitlePadding": 6,
+  "text": "What have we already lost?",
+  "subtitle": [
+   "103 species on the national list have already gone extinct.",
+   "Each bar is one group. Labels show the number lost and the share of the group’s listed species."
+  ]
+ },
+ "data": {
+  "url": "data/epbc_species.csv"
+ },
+ "width": 560,
+ "height": {
+  "step": 38
+ },
+ "transform": [
+  {
+   "joinaggregate": [
+    {
+     "op": "count",
+     "as": "listed"
+    }
+   ],
+   "groupby": [
+    "group"
+   ]
+  },
+  {
+   "filter": "datum.epbc_status == 'Extinct' || datum.epbc_status == 'Extinct in the wild'"
+  },
+  {
+   "aggregate": [
+    {
+     "op": "count",
+     "as": "extinct"
+    }
+   ],
+   "groupby": [
+    "group",
+    "listed"
+   ]
+  },
+  {
+   "calculate": "round(100 * datum.extinct / datum.listed)",
+   "as": "pct"
+  },
+  {
+   "calculate": "datum.extinct + ' (' + datum.pct + '% of the group)'",
+   "as": "label"
+  }
+ ],
+ "layer": [
+  {
+   "mark": {
+    "type": "bar",
+    "color": "#1f1719",
+    "height": {
+     "band": 0.7
+    }
+   },
+   "encoding": {
+    "x": {
+     "field": "extinct",
+     "type": "quantitative",
+     "title": "Number of extinct species",
+     "axis": {
+      "tickCount": 5,
+      "format": "d"
+     }
+    },
+    "y": {
+     "field": "group",
+     "type": "nominal",
+     "sort": "-x",
+     "title": null
+    },
+    "tooltip": [
+     {
+      "field": "group",
+      "title": "Group"
+     },
+     {
+      "field": "extinct",
+      "title": "Extinct species"
+     },
+     {
+      "field": "listed",
+      "title": "Species on the list"
+     },
+     {
+      "field": "pct",
+      "title": "Share extinct (%)"
+     }
+    ]
+   }
+  },
+  {
+   "mark": {
+    "type": "text",
+    "align": "left",
+    "dx": 6,
+    "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+    "fontSize": 13,
+    "fontWeight": "bold",
+    "color": "#16282c"
+   },
+   "encoding": {
+    "x": {
+     "field": "extinct",
+     "type": "quantitative"
+    },
+    "y": {
+     "field": "group",
+     "type": "nominal",
+     "sort": "-x"
+    },
+    "text": {
+     "field": "label"
+    }
+   }
+  }
+ ],
+ "config": {
+  "view": {
+   "stroke": null
+  },
+  "font": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+  "axis": {
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "legend": {
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13,
+   "titleFontSize": 13,
+   "titleFontWeight": 500
+  },
+  "header": {
+   "labelFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "titleFont": "Funnel Display, Helvetica Neue, Arial, sans-serif",
+   "labelFontSize": 13
+  }
+ },
+ "padding": {
+  "left": 16,
+  "right": 16,
+  "top": 12,
+  "bottom": 16
+ },
+ "description": "Bar chart of extinct species by group. Of 103 extinct species on the national list, mammals have lost 39 (26% of the group), plants 35 (2%), birds 22 (12%), amphibians 4 (8%), and fish, invertebrates and reptiles 1 each."
+}

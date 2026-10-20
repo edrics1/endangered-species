@@ -24,7 +24,7 @@
       <div class="status-strip" role="img" aria-label="Bar showing the share of listed species by status: Vulnerable 35%, Endangered 39%, Critically Endangered 21%, Conservation Dependent less than 1%, Extinct 5%.">
         <span class="s-v"></span><span class="s-e"></span><span class="s-c"></span><span class="s-d"></span><span class="s-x"></span>
       </div>
-      <p class="strip-note">Every species on the national list, 2,222 in all, from left to right: Vulnerable (amber, 35%), Endangered (orange, 39%), Critically Endangered (deep red, 21%), Conservation Dependent (a thin sliver, 7 species) and Extinct (charcoal, 5%).</p>
+      <p class="strip-note">Every species on the national list, 2,222 in all, from left to right: <span class="k k-v">Vulnerable 35%</span> <span class="k k-e">Endangered 39%</span> <span class="k k-c">Critically Endangered 21%</span> <span class="k k-d">Conservation Dependent (7 species)</span> and <span class="k k-x">Extinct 5%</span>.</p>
     </div>
   </header>
 
@@ -44,15 +44,15 @@
       </div>
       <figure>
         <div class="chart" id="vis-waffle" data-spec="js/waffle.vg.json"></div>
-        <figcaption>Invertebrates and amphibians are in the worst shape: around four in ten of their listed species are Critically Endangered, compared with fewer than one in ten mammals. Each panel is its own group (there are only 49 amphibians but 1,487 plants), so the squares show how severe the threat is inside a group, not how big the group is. Squares are rounded to the nearest 1%.</figcaption>
+        <figcaption>Invertebrates and amphibians are in the worst shape: around four in ten of their listed species are Critically Endangered, compared with fewer than one in ten mammals. The number beside each block is its share of the group, so you don’t need to count squares. Each panel is its own group (there are only 49 amphibians but 1,487 plants), so the squares show how severe the threat is inside a group, not how big the group is.</figcaption>
       </figure>
       <figure>
         <div class="chart" id="vis-stackedbar" data-spec="js/stackedbarchart.vg.json"></div>
         <figcaption>Plants make up 70% of the list, and 309 of them are Critically Endangered, which is more than all the animal groups put together (149). Per species, several animal groups are worse off, as the squares above show, but plants dominate the numbers. Hover over a bar for exact counts.</figcaption>
       </figure>
       <figure>
-        <div class="chart" id="vis-radial" data-spec="js/radial.vg.json"></div>
-        <figcaption>Mammals and plants have lost the most species (39 and 35), but the shares are very different: a quarter of the mammals on the list are gone, against 2% of plants. The wedges use a square-root scale so small counts stay visible, so trust the printed numbers over the wedge lengths. Percentages are out of every species on the list for that group, extinct ones included. “Extinct” means no living individual is known to remain; the count includes one species that survives only in captivity or cultivation.</figcaption>
+        <div class="chart" id="vis-extinct" data-spec="js/extinct.vg.json"></div>
+        <figcaption>Mammals and plants have lost the most species (39 and 35), but the shares are very different: a quarter of the mammals on the list are gone, against 2% of plants. Percentages are out of every species on the list for that group, extinct ones included. “Extinct” means no living individual is known to remain; the count includes one species that survives only in captivity or cultivation.</figcaption>
       </figure>
     </div>
   </section>
@@ -72,7 +72,7 @@
       </div>
       <figure>
         <div class="chart" id="vis-choropleth" data-spec="js/choropleth.vg.json"></div>
-        <figcaption>NSW has the longest list, then WA and Queensland. Switch the menu to species per 10,000 km² and the order flips: the ACT, Tasmania and Victoria look the most crowded simply because they are small (the ACT is off the colour scale). A species found in several states counts in each one, so state totals add up to more than 2,119, and 70 species are not tied to any state because they live in marine or external-territory waters.</figcaption>
+        <figcaption>NSW has the longest list, then WA and Queensland. The colours are grouped into five steps, so states in the same step look alike. Switch the menu to species per 10,000 km² and the order flips: the ACT, Tasmania and Victoria look the most crowded simply because they are small. A species found in several states counts in each one, so state totals add up to more than 2,119, and 70 species are not tied to any state because they live in marine or external-territory waters.</figcaption>
       </figure>
       <figure>
         <div class="chart" id="vis-heatmap" data-spec="js/heatmap.vg.json"></div>
@@ -80,7 +80,7 @@
       </figure>
       <figure>
         <div class="chart" id="vis-arc" data-spec="js/arc.vg.json"></div>
-        <figcaption>The strongest links join neighbours in the east and south-east, led by NSW and Queensland. WA is the most self-contained state: four in five of its listed species live nowhere else, and Tasmania comes next at about three in five. A species shared by three states adds to three circles and three curves, so the circle sizes add up to more than the number of species.</figcaption>
+        <figcaption>The strongest links join neighbours in the east and south-east, led by NSW and Queensland. Line thickness has three steps: thin for fewer than 20 shared species, medium for 20 to 99, and thick for 100 or more. WA is the most self-contained state: four in five of its listed species live nowhere else, and Tasmania comes next at about three in five. A species shared by three states adds to three circles and three curves, so the circle sizes add up to more than the number of species.</figcaption>
       </figure>
     </div>
   </section>
@@ -159,12 +159,14 @@
   <div class="page">
     <h2>About this page</h2>
     <p>Created by Edric Chang Zi-Xuan, 12/10/2026, for FIT3179 Data Visualisation 2, Monash University.</p>
-    <p>Data sources:</p>
-    <ul>
-      <li>EPBC Act threatened species list: Department of Climate Change, Energy, the Environment and Water, via <a href="https://data.gov.au/data/dataset/threatened-species-state-lists">data.gov.au</a>. </li>
-      <li>Threatened Species Index 2025: TERN and The University of Queensland, <a href="https://tsx.org.au">tsx.org.au</a>. CC BY 4.0.</li>
-      <li>State boundaries: Made with Natural Earth, <a href="https://www.naturalearthdata.com">naturalearthdata.com</a>.</li>
-      <li>AI acknowledgement: I used Claude Sonnet 5.5 to assist with writing code for charts and also grammar fixes. I further edited code and text to fit my needs and improve clarity. </li>
+    <p>The list of threatened species comes from the Australian Government Department of Climate Change, Energy, the Environment and Water (2026). The population trends and monitored regions come from the Threatened Species Index (2025), which is licensed under CC BY 4.0, and the state boundaries come from Natural Earth (2025).</p>
+    <p>I used Claude Sonnet 5.5 (Anthropic, 2026) to assist with writing code for the charts and fixing grammar. I further edited the code and text to fit my needs and improve clarity.</p>
+    <h3>References</h3>
+    <ul class="refs">
+      <li>Anthropic. (2026). <em>Claude</em> (Claude Sonnet 5.5) [Large language model]. <a href="https://claude.ai">https://claude.ai</a></li>
+      <li>Australian Government Department of Climate Change, Energy, the Environment and Water. (2026). <em>Threatened species and ecological communities of national environmental significance</em> [Data set]. Data.gov.au. <a href="https://data.gov.au/data/dataset/threatened-species-state-lists">https://data.gov.au/data/dataset/threatened-species-state-lists</a></li>
+      <li>Natural Earth. (2025). <em>Natural Earth</em> [Data set]. <a href="https://www.naturalearthdata.com/">https://www.naturalearthdata.com/</a></li>
+      <li>Threatened Species Index. (2025). <em>The Australian Threatened Species Index 2025</em> [Data set]. Terrestrial Ecosystem Research Network, The University of Queensland. <a href="https://tsx.org.au/">https://tsx.org.au/</a></li>
     </ul>
   </div>
 </footer>
